@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Machinon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/styles.css">
+  </head>
+  <body class="bg-gray-900 text-white font-sans">
+    <!-- Sidebar + Main -->
+    <div class="flex min-h-screen">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-gray-800 p-6 flex-shrink-0 hidden md:block">
+        <div class="logo text-2xl font-bold">
+          <img
+            src="assets/img/logo_white.png"
+            alt="MachinON"
+            class="max-w-full h-auto w-32 md:w-48 lg:w-55"
+          />
+        </div>
+        <nav>
+          <ul>
+            <li class="mb-4">
+              <a href="#" class="text-blue-400 font-semibold">Principais</a>
+            </li>
+            <li class="mb-4">
+              <a href="#" class="text-gray-400">Sensores</a>
+            </li>
+            <li class="mb-4">
+              <a href="#" class="text-gray-400">Favoritos</a>
+            </li>
+            <li class="mb-4">
+              <a href="#" class="text-gray-400">Mensagens</a>
+            </li>
+            <li class="mb-4">
+              <a href="#" class="text-gray-400">Relatórios</a>
+            </li>
+            <li class="mb-4">
+              <a href="#" class="text-gray-400">Gerenciar Equipe</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="mt-auto">
+          <a href="#" class="block text-gray-400 mb-2">Settings</a>
+          <a href="#" class="block text-gray-400">Logout</a>
+        </div>
+      </aside>
+
+      <!-- Main content -->
+      <main class="flex-1 p-6">
+
+        <!-- Header -->
+        <div
+          class="flex justify-between items-center mb-8 flex-wrap border-b border-gray-600 shadow-md"
+        >
+          <h2 class="text-3xl font-bold mb-4">Principais</h2>
+          <div class="flex items-center">
+            <button class="relative">
+              <span
+                class="bg-red-500 text-white rounded-full w-5 h-5 text-xs absolute top-0 right-0"
+                >6</span
+              >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-gray-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  d="M2 5a1 1 0 011-1h14a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V5zm2 0v10h12V5H4zm5 9a1 1 0 100-2 1 1 0 000 2zm3-1a1 1 0 11-2 0 1 1 0 012 0z"
+                />
+              </svg>
+            </button>
+            <img
+              src="assets/img/user.png"
+              alt="User Avatar"
+              class="w-10 h-10 rounded-full ml-4"
+            />
+            <span class="ml-2 text-gray-400">Moni Roy</span>
+          </div>
+        </div>
+
+
+        <!-- Card Session -->
+        <div class="container mx-auto p-6 mt-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+              <!-- Card 1 -->
+              <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                <div class="p-4 flex content-start flex-col">
+                  <h5 class="text-white text-base sm:text-lg md:text-xl">Temperatura MQ1</h5>
+                  <div class="flex items-center justify-between mt-2">
+                    <span class="text-gray-300 font-bold text-2xl md:text-3xl">40°C</span>
+                  </div>
+                  <div class="mt-4 text-sm sm:text-base md:text-lg flex items-center gap-2">
+                    <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14 0L16.29 2.29L11.41 7.17L7.41 3.17L0 10.59L1.41 12L7.41 6L11.41 10L17.71 3.71L20 6V0H14Z" fill="#FF8743"/>
+                    </svg>
+                    <span class="text-orange-400">8.5%</span>
+                    <span class="text-gray-300">Entre 13:00 e 15:00</span>
+                  </div>
+                </div>
+              </div>
+          
+              <!-- Card 2 -->
+              <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                <div class="p-4 flex content-start flex-col">
+                  <h5 class="text-white text-base sm:text-lg md:text-xl">Temperatura Óleo MQ1</h5>
+                  <div class="flex items-center justify-between mt-2">
+                    <span class="text-gray-300 font-bold text-2xl md:text-3xl">40°C</span>
+                  </div>
+                  <div class="mt-4 text-sm sm:text-base md:text-lg flex items-center gap-2">
+                    <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14 0L16.29 2.29L11.41 7.17L7.41 3.17L0 10.59L1.41 12L7.41 6L11.41 10L17.71 3.71L20 6V0H14Z" fill="#FF8743"/>
+                    </svg>
+                    <span class="text-orange-400">8.5%</span>
+                    <span class="text-gray-300">Entre 13:00 e 15:00</span>
+                  </div>
+                </div>
+              </div>
+          
+              <!-- Card 3 -->
+              <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                <div class="p-4 flex content-start flex-col">
+                  <h5 class="text-white text-base sm:text-lg md:text-xl">Rotação média MQ1</h5>
+                  <div class="flex items-center justify-between mt-2">
+                    <span class="text-gray-300 font-bold text-2xl md:text-3xl">6500 RPM</span>
+                  </div>
+                  <div class="mt-4 text-sm sm:text-base md:text-lg flex items-center gap-2">
+                    <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14 0L16.29 2.29L11.41 7.17L7.41 3.17L0 10.59L1.41 12L7.41 6L11.41 10L17.71 3.71L20 6V0H14Z" fill="#8bff7c"/>
+                    </svg>
+                    <span class="text-green-400">0.2%</span>
+                    <span class="text-gray-300">Entre 13:00 e 15:00</span>
+                  </div>
+                </div>
+              </div>
+          
+              <!-- Card 4 -->
+              <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                <div class="p-4 flex content-start flex-col"> 
+                  <h5 class="text-white text-base sm:text-lg md:text-xl">Fluído de resfriamento</h5>
+                  <div class="flex items-center justify-between mt-2">
+                    <span class="text-gray-300 font-bold text-2xl md:text-3xl">Cheio</span>
+                  </div>
+                  <div class="mt-4 text-sm sm:text-base md:text-lg flex items-center gap-2">
+                    <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14 0L16.29 2.29L11.41 7.17L7.41 3.17L0 10.59L1.41 12L7.41 6L11.41 10L17.71 3.71L20 6V0H14Z" fill="#FF8743"/>
+                    </svg>
+                    <span class="text-orange-400">8.5%</span>
+                    <span class="text-gray-300">Entre 13:00 e 15:00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="container mx-auto p-6 bg-gray-800 rounded-lg shadow-lg mt-16">
+            <div class="poppins-bold">Tempo de funcionamento</div>
+            <div class="mt-4">    
+                <canvas id="productionChart" class="w-full lg:h-50"></canvas>
+            </div>
+        </div>
+          
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          <script>
+            const ctx = document.getElementById("productionChart").getContext("2d");
+            const productionChart = new Chart(ctx, {
+              type: "line",
+              data: {
+                labels: ["5k", "10k", "15k", "20k", "25k", "30k", "35k", "40k", "45k", "50k", "55k", "60k"],
+                datasets: [{
+                  label: "Produção",
+                  data: [20, 40, 60, 80, 100, 90, 70, 60, 80, 90, 85, 100],
+                  borderColor: "rgba(99, 102, 241, 1)",
+                  backgroundColor: "rgba(99, 102, 241, 0.1)",
+                  fill: true,
+                }],
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false, // Permite que o gráfico ocupe a altura do contêiner
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                  },
+                },
+              },
+            });
+          </script>
+  </body>
+</html>

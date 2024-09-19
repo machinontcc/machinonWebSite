@@ -14,8 +14,8 @@ app.post('/api/send-message', (req, res) => {
   // Aqui você pode implementar sua lógica de resposta
   let botResponse = 'Desculpe, não entendi sua mensagem.';
 
-  if (userMessage.toLowerCase().includes('oi')) {
-    botResponse = 'Olá! Como posso ajudar você?';
+  if (userMessage.toLowerCase().includes('oi sou o roberto')) {
+    botResponse = 'Ninguém te perguntou';
   } else if (userMessage.toLowerCase().includes('qual seu nome')) {
     botResponse = 'Eu sou um chatbot!';
   }

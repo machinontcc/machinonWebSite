@@ -1,10 +1,24 @@
 function openPopup() {
     document.getElementById('chatbot-popup').classList.remove('hidden');
+    sendInitialMessage();
 }
 
 function closePopup() {
     document.getElementById('chatbot-popup').classList.add('hidden');
+    clearMessages();
 }
+
+function clearMessages() {
+    const messages = document.getElementById('messages');
+    messages.innerHTML = ''; // Limpa todo o conteúdo da área de mensagens
+}
+
+function sendInitialMessage() {
+    const messages = document.getElementById('messages');
+    const initialMessage = `<div><strong>Suporte: Olá, como podemos te ajudar?</strong></div>`; // Mensagem pré-programada
+    messages.innerHTML += initialMessage;
+
+  }
 
 async function sendMessage() {
     const userInput = document.getElementById('user-input').value;
@@ -12,7 +26,7 @@ async function sendMessage() {
         const messagesDiv = document.getElementById('messages');
 
         // Adicionar mensagem do usuário
-        messagesDiv.innerHTML += `<div><strong>Você:</strong> ${userInput}</div>`;
+        messagesDiv.innerHTML += `<div>Você: ${userInput}</div>`;
 
         // Limpar o campo de entrada
         document.getElementById('user-input').value = '';
@@ -30,7 +44,7 @@ async function sendMessage() {
             const data = await response.json();
 
             // Adicionar resposta do bot
-            messagesDiv.innerHTML += `<div><strong>Suporte Machinon:</strong> ${data.response}</div>`;
+            messagesDiv.innerHTML += `<div><strong>Suporte: ${data.response}</strong></div>`;
             messagesDiv.scrollTop = messagesDiv.scrollHeight; // Rolagem automática para a última mensagem
         } 
         catch (error) 
