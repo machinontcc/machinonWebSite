@@ -90,7 +90,7 @@
                 <div class="p-4 flex content-start flex-col">
                   <h5 class="text-white text-base sm:text-lg md:text-xl">Temperatura MQ1</h5>
                   <div class="flex items-center justify-between mt-2">
-                    <span class="text-gray-300 font-bold text-2xl md:text-3xl">40°C</span>
+                    <span class="text-gray-300 font-bold text-2xl md:text-3xl" id="valueTempMQ1">40°C</span>
                   </div>
                   <div class="mt-4 text-sm sm:text-base md:text-lg flex items-center gap-2">
                     <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -107,7 +107,7 @@
                 <div class="p-4 flex content-start flex-col">
                   <h5 class="text-white text-base sm:text-lg md:text-xl">Temperatura Óleo MQ1</h5>
                   <div class="flex items-center justify-between mt-2">
-                    <span class="text-gray-300 font-bold text-2xl md:text-3xl">40°C</span>
+                    <span class="text-gray-300 font-bold text-2xl md:text-3xl" id="valueTempOleoMQ1">40°C</span>
                   </div>
                   <div class="mt-4 text-sm sm:text-base md:text-lg flex items-center gap-2">
                     <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -124,7 +124,7 @@
                 <div class="p-4 flex content-start flex-col">
                   <h5 class="text-white text-base sm:text-lg md:text-xl">Rotação média MQ1</h5>
                   <div class="flex items-center justify-between mt-2">
-                    <span class="text-gray-300 font-bold text-2xl md:text-3xl">6500 RPM</span>
+                    <span class="text-gray-300 font-bold text-2xl md:text-3xl" id="valueRpmMQ1">6500 RPM</span>
                   </div>
                   <div class="mt-4 text-sm sm:text-base md:text-lg flex items-center gap-2">
                     <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -163,7 +163,7 @@
         </div>
           
           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-          <script>
+          <script type="module">
             const ctx = document.getElementById("productionChart").getContext("2d");
             const productionChart = new Chart(ctx, {
               type: "line",
@@ -187,6 +187,70 @@
                 },
               },
             });
-          </script>
+
+             // Importar as funções necessárias do SDK
+             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+            import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+            // Configurações do Firebase
+            const firebaseConfig = {
+              apiKey: "AIzaSyATF9B-SMsjnaScdxw6_EE1St769aogbaw",
+              authDomain: "machinontcc-81efa.firebaseapp.com",
+              databaseURL: "https://machinontcc-81efa-default-rtdb.firebaseio.com",
+              projectId: "machinontcc-81efa",
+              storageBucket: "machinontcc-81efa.appspot.com",
+              messagingSenderId: "697902248228",
+              appId: "1:697902248228:web:aee44e5c28fec45f7403b1"
+            };
+
+
+            // Inicializa o Firebase
+            const app = initializeApp(firebaseConfig);
+            const database = getDatabase(app);
+
+             // Função para ler dados do Firebase
+             function readData() 
+             {
+                const dataRef = ref(database, 'maquinas/MQ1');
+                onValue(dataRef, (snapshot) => {
+                    const data = snapshot.val();
+                    updateDisplay(data);
+                }, (error) => {
+                    console.error('Erro ao ler dados:', error);
+                });
+              }
+
+              // Função para atualizar o HTML e mudar as cores
+            function updateDisplay(data) 
+            {
+              const tempMQ1 = document.getElementById('valueTempMQ1');
+              const tempOleoMQ1 = document.getElementById('valueTempOleoMQ1');
+              const rpmMQ1 = document.getElementById('valueRpmMQ1');
+
+              // Atualizar os valores
+              tempMQ1.innerText = `${data.temperaturaMQ1}°C`;
+              tempOleoMQ1.innerText = `${data.temperaturaOleoMQ1}°C`;
+              rpmMQ1.innerText = `${data.RpmMQ1} RPM`;
+
+              // Mudar a cor de acordo com a temperatura MQ1
+              tempMQ1.style.color = getTemperatureColor(data.temperaturaMQ1);
+              tempOleoMQ1.style.color = getTemperatureColor(data.temperaturaOleoMQ1);
+            }
+
+            function getTemperatureColor(temperature) {
+                if (temperature < 60) {
+                    return 'lightgreen'; // Verde claro
+                } else if (temperature < 80) {
+                    return 'orange'; // Laranja
+                } else {
+                    return 'red'; // Vermelho
+                }
+            }
+
+        // Chama a função para ler os dados inicialmente
+        readData();
+        
+        // Configura o intervalo para ler os dados a cada 20 segundos
+        setInterval(readData, 1000);
+      </script>
   </body>
 </html>
