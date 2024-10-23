@@ -17,8 +17,8 @@ app.post('/api/send-message', (req, res) => {
   if (userMessage.toLowerCase().includes('oi sou o roberto')) {
     botResponse = 'Ninguém te perguntou';
   } else if (userMessage.toLowerCase().includes('qual seu nome')) {
-    botResponse = 'Eu sou um chatbot!';
-  }
+    botResponse = 'Eu sou o Nicolau, o chat bot da Machinon!';
+  } 
 
   res.json({ response: botResponse });
 });
