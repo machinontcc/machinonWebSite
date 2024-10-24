@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/styles.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <title>Sobre Nós - MachinON</title>
+</head>
+
+<body class="bg-zinc-800 text-white">
+
+    <!-- Navbar -->
+    <nav class="bg-zinc-900 z-50 shadow-md w-full lg:w-3/5 lg:mx-auto lg:rounded-2xl">
+        <div class="container mx-auto flex items-center p-2">
+            <!-- Logo -->
+            <div class="logo text-xl font-bold">
+                <img src="assets/img/logo_white.png" alt="MachinON" class="max-w-full h-auto w-24 md:w-32 lg:w-40" />
+            </div>
+            <!-- Linha vertical ao lado da logo -->
+            <div class="border-l border-white h-10 mx-4"></div>
+            <!-- Links de navegação -->
+            <div class="hidden md:flex space-x-4 items-center">
+                <a href="index.html" class="poppins-medium underline-animation text-white text-sm">Home</a>
+                <a href="planos.html" class="poppins-medium underline-animation text-white text-sm">Planos</a>
+                <a href="#" class="poppins-medium underline-animation text-white text-sm">Sobre nós</a>
+            </div>
+            <!-- Botões de Ação -->
+            <div class="ml-auto hidden md:flex space-x-3 items-center pr-1">
+                <a href="cadastro.html"
+                    class="relative inline-block px-4 py-2 font-bold text-blue-400 hover:text-white bg-transparent border-blue-600 border-2 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-110 hover:bg-blue-700 hover:shadow-lg group overflow-hidden text-center w-28">
+                    <span
+                        class="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"></span>
+                    <span class="relative z-10 poppins-medium text-sm">Assine já</span>
+                </a>
+                <a href="#"
+                    class="relative inline-block px-4 py-2 font-bold text-white bg-blue-600 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-110 hover:bg-blue-700 hover:shadow-lg group overflow-hidden text-center w-30">
+                    <span
+                        class="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"></span>
+                    <span class="relative z-10 poppins-medium text-sm">Acesse aqui</span>
+                </a>
+            </div>
+            <!-- Ícone de menu hambúrguer (para telas pequenas) -->
+            <button id="menu-button" class="ml-auto block md:hidden text-white focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Seção "Sobre Nós" -->
+    <section class="py-16 bg-zinc-800">
+        <div class="container mx-auto lg:w-3/5">
+            <!-- Título da seção -->
+            <div class="flex justify-center mb-4">
+                <div class="rounded-full bg-gray-700 text-white px-4 py-2 text-sm font-bold">
+                    Sobre Nós
+                </div>
+            </div>
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-8">Nossa Jornada e Missão</h2>
+            <p class="text-lg text-gray-300 text-center mb-12">
+                Desde a nossa fundação, o MachinON tem sido movido pela paixão em inovar e criar soluções tecnológicas
+                que simplificam a gestão e aumentam a eficiência. Nosso compromisso é fornecer ferramentas de alta
+                qualidade
+                para empresas e indivíduos alcançarem seus objetivos com facilidade e praticidade.
+            </p>
+        </div>
+
+        <!-- Equipe e Missão -->
+        <div class="container mx-auto lg:w-3/5 grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+
+            <!-- Card 1: Nossa Missão -->
+            <div
+                class="bg-white text-black rounded-lg shadow-lg p-8 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl">
+                <h3 class="text-2xl font-bold mb-4">Nossa Missão</h3>
+                <p class="text-gray-600 mb-4">
+                    Proporcionar soluções inovadoras e acessíveis que atendam às necessidades de gestão de empresas de
+                    todos os portes,
+                    facilitando o dia a dia com tecnologia de ponta.
+                </p>
+                <p class="text-gray-600">
+                    Estamos constantemente evoluindo para garantir que nossos clientes tenham as melhores ferramentas
+                    para alcançar o sucesso.
+                </p>
+            </div>
+
+            <!-- Card 2: Nossa Visão -->
+            <div
+                class="bg-white text-black rounded-lg shadow-lg p-8 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl">
+                <h3 class="text-2xl font-bold mb-4">Nossa Visão</h3>
+                <p class="text-gray-600 mb-4">
+                    Ser a principal escolha de empresas que buscam soluções tecnológicas avançadas para a otimização de
+                    suas operações.
+                </p>
+                <p class="text-gray-600">
+                    Almejamos transformar o modo como as empresas interagem com a tecnologia, oferecendo sempre as
+                    ferramentas mais modernas e eficientes.
+                </p>
+            </div>
+
+            <!-- Card 3: Nossos Valores -->
+            <div
+                class="bg-white text-black rounded-lg shadow-lg p-8 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl">
+                <h3 class="text-2xl font-bold mb-4">Nossos Valores</h3>
+                <ul class="list-disc list-inside text-gray-600 space-y-2">
+                    <li>Inovação constante</li>
+                    <li>Compromisso com a qualidade</li>
+                    <li>Transparência e ética</li>
+                    <li>Foco no cliente</li>
+                    <li>Sustentabilidade e responsabilidade social</li>
+                </ul>
+            </div>
+
+            <!-- Card 4: Nossa Equipe -->
+            <div
+                class="bg-white text-black rounded-lg shadow-lg p-8 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl">
+                <h3 class="text-2xl font-bold mb-4">Nossa Equipe</h3>
+                <p class="text-gray-600">
+                    Composta por profissionais experientes e apaixonados pelo que fazem, nossa equipe é o coração do
+                    MachinON.
+                    Estamos comprometidos em oferecer o melhor suporte e as soluções mais adequadas para nossos
+                    clientes,
+                    garantindo que você sempre tenha o melhor atendimento e inovação ao seu alcance.
+                </p>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Rodapé -->
+    <footer class="text-white py-6 mx-auto container flex flex-col border-t-2 border-zinc-700">
+        <div class="flex justify-center md:justify-start">
+            <img src="assets/img/logo_white.png" alt="Logo MachinON" class="max-w-full h-auto w-24 md:w-32 lg:w-48" />
+        </div>
+        <div class="flex flex-wrap justify-center md:justify-start md:space-x-4 mt-2 text-sm md:text-base">
+            <p class="w-full text-center md:w-auto">© MachinON 2024</p>
+            <a href="#" class="underline-animation">Política de Privacidade</a>
+            <a href="#" class="underline-animation">Política de Cookies</a>
+            <a href="#" class="underline-animation">Termos de uso</a>
+        </div>
+    </footer>
+
+    <script>
+        const menuButton = document.getElementById('menu-button');
+        const sidebar = document.getElementById('sidebar');
+
+        // Abrir/Fechar o menu sidebar ao clicar no botão hamburguer
+        menuButton.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
+    </script>
+</body>
+
+</html>
