@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <title>Cadastro - MachinON</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  
+  <script src="../config/configFirebase.js"></script>
+  <script src="../assets/js/cadastro.js"></script>
+
+</head>
+
+<body class="bg-gray-900 text-white">
+  <nav class="bg-zinc-900 z-50 shadow-md w-full lg:w-3/5 lg:mx-auto lg:rounded-2xl">
+    <div class="container mx-auto flex items-center p-2">
+      <!-- Logo -->
+      <div class="logo text-xl font-bold">
+        <img src="../assets/img/logo_white.png" alt="MachinON" class="max-w-full h-auto w-24 md:w-32 lg:w-40" />
+      </div>
+
+      <!-- Linha vertical ao lado da logo -->
+      <div class="border-l border-white h-10 mx-4"></div>
+
+      <!-- Links de navegação (escondidos em telas menores que 768px) -->
+      <div class="hidden md:flex space-x-4 items-center">
+        <a href="../index.html" class="poppins-medium underline-animation text-white text-sm">Home</a>
+        <a href="planos.html" class="poppins-medium underline-animation text-white text-sm">Planos</a>
+        <a href="sobreNos.html" class="poppins-medium underline-animation text-white text-sm">Sobre nós</a>
+      </div>
+
+      <!-- Botões de Ação (escondidos em telas menores que 768px) -->
+      <div class="ml-auto hidden md:flex space-x-3 items-center pr-1">
+        <a href="#"
+          class="relative inline-block px-4 py-2 font-bold text-white bg-blue-600 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-110 hover:bg-blue-700 hover:shadow-lg group overflow-hidden text-center w-30">
+          <span
+            class="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"></span>
+          <span class="relative z-10 poppins-medium text-sm">Acesse aqui</span>
+        </a>
+      </div>
+
+      <!-- Ícone de menu hambúrguer (visível em telas menores que 768px) -->
+      <button id="menu-button" class="ml-auto block md:hidden text-white focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Sidebar para telas menores -->
+  <div id="sidebar"
+    class="fixed left-0 top-0 w-3/4 h-full bg-zinc-900 shadow-lg z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
+    <div class="p-4">
+      <div class="logo text-xl font-bold mb-6">
+        <img src="../assets/img/logo_white.png" alt="MachinON" class="max-w-full h-auto w-24" />
+      </div>
+      <a href="../index.html" class="block poppins-medium text-white text-lg mb-4">Home</a>
+      <a href="planos.html" class="block poppins-medium text-white text-lg mb-4">Planos</a>
+      <a href="sobreNos.html" class="block poppins-medium text-white text-lg mb-4">Sobre nós</a>
+      <a href="#"
+        class="block text-center px-4 py-2 mt-4 font-bold text-white bg-blue-600 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-110 hover:bg-blue-700 hover:shadow-lg">
+        Acesse aqui
+      </a>
+    </div>
+  </div>
+
+  <!-- Seção de Cadastro -->
+  <section class="py-16 bg-gray-900 fade-in">
+    <div class="container mx-auto lg:w-3/5">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-8">
+        Cadastro de Usuário
+      </h2>
+
+      <!-- Progresso do Cadastro -->
+      <div class="mb-8">
+        <div class="flex justify-center mb-4">
+          <div class="w-1/3 h-1 bg-blue-600 rounded-l-full"></div>
+          <div class="w-1/3 h-1 bg-gray-600"></div>
+          <div class="w-1/3 h-1 bg-gray-600 rounded-r-full"></div>
+        </div>
+        <div class="flex justify-between text-sm text-gray-400">
+          <span>Dados Pessoais</span>
+          <span>Pagamento</span>
+        </div>
+      </div>
+
+      <!-- Explicação sobre a assinatura -->
+      <div class="mb-8 text-center">
+        <p class="text-lg text-gray-300 mb-4">
+          Cadastre-se e escolha um plano que atenda às suas necessidades.
+          Nossa plataforma oferece soluções tecnológicas que simplificam a
+          gestão e aumentam a eficiência.
+        </p>
+      </div>
+
+      <!-- Seção de seleção de planos -->
+      <h3 class="text-2xl font-bold text-center mb-6">Escolha seu Plano</h3>
+
+      <div id="selected-plan" class="text-center bg-gray-800 p-4 rounded-lg font-bold text-lg mb-8">
+        Nenhum plano selecionado.
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div
+          class="bg-yellow-600 text-white rounded-lg shadow-lg p-6 transition duration-300 ease-in-out transform hover:scale-105">
+          <h4 class="text-xl font-bold mb-2">Plano Ouro</h4>
+          <p class="mb-4">
+            Ideal para pequenas empresas que estão começando.
+          </p>
+          <p class="text-lg font-bold">R$ 29,90 /mês</p>
+          <button
+            class="select-plan-button mt-4 w-full bg-yellow-700 hover:bg-yellow-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+            data-plan="Plano Ouro" preco-plan = '29,90'>
+            Selecionar
+          </button>
+        </div>
+        <div
+          class="bg-blue-600 text-white rounded-lg shadow-lg p-6 transition duration-300 ease-in-out transform hover:scale-105">
+          <h4 class="text-xl font-bold mb-2">Plano Diamante</h4>
+          <p class="mb-4">Para empresas em crescimento com mais recursos.</p>
+          <p class="text-lg font-bold">R$ 64,90 /mês</p>
+          <button
+            class="select-plan-button mt-4 w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+            data-plan="Plano Diamante" preco-plan = '64,90'>
+            Selecionar
+          </button>
+        </div>
+        <div
+          class="bg-green-600 text-white rounded-lg shadow-lg p-6 transition duration-300 ease-in-out transform hover:scale-105">
+          <h4 class="text-xl font-bold mb-2">Plano Platinum</h4>
+          <p class="mb-4">Soluções avançadas para empresas estabelecidas.</p>
+          <p class="text-lg font-bold">R$ 99,90 /mês</p>
+          <button
+            class="select-plan-button mt-4 w-full bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+            data-plan="Plano Platinum" preco-plan = '99,90'>
+            Selecionar
+          </button>
+        </div>
+      </div>
+
+      <!-- Mensagem sobre detalhes dos planos -->
+      <div class="text-center mb-6">
+        <p class="text-lg text-gray-300">
+          Para mais detalhes sobre cada plano, visite a página de
+          <a href="planos.html" class="text-blue-400 hover:underline">Planos</a>.
+        </p>
+      </div>
+
+      <!-- Depoimentos -->
+      <div class="mt-16 bg-gray-800 p-6 rounded-lg">
+        <h3 class="text-2xl font-bold text-center mb-4">
+          O que nossos usuários dizem
+        </h3>
+        <blockquote class="italic text-gray-300 text-center">
+          "A MachinON transformou a forma como gerenciamos nossa empresa. A
+          tecnologia é fácil de usar e o suporte é excelente!"
+          <footer class="mt-2 font-bold">- Ana Souza</footer>
+        </blockquote>
+      </div>
+      <br />
+
+      <!-- Formulário de Cadastro -->
+      <h3 class="text-2xl font-bold text-center mb-6">Dados Pessoais</h3>
+      <form id="registration-form" onsubmit="handleSubmit(event)" class="bg-gray-800 p-8 rounded-lg shadow-lg">
+        <input type="hidden" name="plano" id="plano" value="" />
+        <!-- Campo oculto para plano -->
+        <div class="mb-4">
+          <label for="nome" class="block text-sm font-bold mb-2">Nome Completo</label>
+          <input type="text" id="nome" name="nome"
+            class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500" />
+        </div>
+        <div class="mb-4">
+          <label for="cargo" class="block text-sm font-bold mb-2">Cargo</label>
+          <input type="text" id="cargo" required name="cargo"
+            class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500" />
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-bold mb-2">E-mail</label>
+          <input type="email" id="email" required name="email"
+            class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500" />
+        </div>
+        <div class="mb-4">
+          <label for="telefone" class="block text-sm font-bold mb-2">Telefone</label>
+          <input type="phone" id="telefone" required name="telefone"
+            class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500" />
+        </div>
+        <div class="mb-4">
+          <label for="senha" class="block text-sm font-bold mb-2">Senha</label>
+          <input type="password" id="senha" required name="senha"
+            class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500" />
+        </div>
+        <div class="mb-4">
+          <label for="codigo" class="block text-sm font-bold mb-2">Código de convite:</label>
+          <input type="text" id="codigo" name="codigo"
+            placeholder="Opcional (Se deseja apenas se vincular a alguma empresa, pergunte ao responsável o código de convite)"
+            class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500" />
+        </div>
+        <button type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+          Cadastrar
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="text-white py-6 mx-auto container flex flex-col border-t-2 border-zinc-700">
+    <div class="flex justify-center md:justify-start">
+      <img src="../assets/img/logo_white.png" alt="Logo MachinOn" class="max-w-full h-auto w-24 md:w-32 lg:w-48" />
+    </div>
+    <div class="flex flex-wrap justify-center md:justify-start md:space-x-4 mt-2 text-sm md:text-base">
+      <p class="w-full text-center md:w-auto">© MachinON 2024</p>
+      <a href="#" class="underline-animation">Política de Privacidade</a>
+      <a href="#" class="underline-animation">Política de Cookies</a>
+      <a href="#" class="underline-animation">Termos de uso</a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../assets/js/main.js" defer></script>
+
+  <script>
+    // Event Listener para os botões de seleção de plano
+    const planButtons = document.querySelectorAll('.select-plan-button');
+    planButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const selectedPlan = button.getAttribute('data-plan');
+        const precoPlan = button.getAttribute('preco-plan');
+        selectPlan(selectedPlan, precoPlan); // Chama a função de seleção de plano
+      });
+    });
+
+    // Função para selecionar plano
+    function selectPlan(plano, preco) {
+      document.getElementById('selected-plan').innerText = 'Plano Selecionado: ' + plano;
+      document.getElementById('plano').value = plano; // Atualiza o campo oculto com o plano selecionado
+      localStorage.setItem('planoSelecionado', plano); // Salva o plano selecionado no localStorage
+      localStorage.setItem('precoPlano', preco); // Salva o plano selecionado no localStorage
+    }
+
+
+
+    // Função para carregar o plano selecionado do localStorage
+    function loadSelectedPlan() {
+      const savedPlan = localStorage.getItem('planoSelecionado');
+      if (savedPlan) {
+        document.getElementById('selected-plan').innerText = 'Plano Selecionado: ' + savedPlan;
+        document.getElementById('plano').value = savedPlan; // Atualiza o campo oculto se houver um plano salvo
+      }
+    }
+
+    // Event Listener para o DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', loadSelectedPlan);
+
+  </script>
+</body>
+
+</html>

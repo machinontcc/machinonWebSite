@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Pagamento</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <!-- Container Principal -->
+    <div class="bg-white p-8 rounded-lg shadow-md flex w-full max-w-4xl space-x-6">
+
+        <!-- Lado Esquerdo: Escolha do método de pagamento -->
+        <div class="w-1/2">
+            <h2 class="text-lg font-bold mb-4 text-gray-800">Método de Pagamento</h2>
+
+            <!-- Opção de Cartão de Crédito -->
+            <div class="bg-gray-100 p-4 rounded-lg border border-gray-300 flex items-center justify-between">
+                <label class="flex items-center space-x-4">
+                    <input type="radio" name="paymentMethod" checked class="form-radio text-green-500">
+                    <span class="text-lg font-semibold text-gray-800">Cartão de Crédito</span>
+                </label>
+            </div>
+
+            <!-- Formulário de Dados do Cartão -->
+            <form id="creditCardForm" class="mt-6 space-y-4">
+                <!-- Número do Cartão -->
+                <div>
+                    <label for="cardNumber" class="block text-sm font-medium text-gray-700">Número do Cartão</label>
+                    <input type="text" id="cardNumber" name="cardNumber" placeholder="Número do cartão"
+                        class="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 border-gray-300"
+                        required minlength="16" maxlength="16" oninput="updateCardDisplay()" />
+                </div>
+
+                <!-- Nome no Cartão -->
+                <div>
+                    <label for="cardName" class="block text-sm font-medium text-gray-700">Nome no Cartão</label>
+                    <input type="text" id="cardName" name="cardName" placeholder="Nome completo"
+                        class="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 border-gray-300"
+                        required oninput="updateCardDisplay()" />
+                </div>
+
+                <!-- Data de Validade e CVV -->
+                <div class="flex space-x-4">
+                    <div class="w-1/2">
+                        <label for="expiryDate" class="block text-sm font-medium text-gray-700">Validade (MM/AA)</label>
+                        <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/AA"
+                            class="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 border-gray-300"
+                            required maxlength="5" oninput="updateCardDisplay()" />
+                    </div>
+                    <div class="w-1/2">
+                        <label for="cvv" class="block text-sm font-medium text-gray-700">CVV</label>
+                        <input type="number" id="cvv" name="cvv" placeholder="CVV"
+                            class="mt-1 block w-full px-4 py-2 border rounded-md focus:ring-indigo-500 focus:border-indigo-500 border-gray-300"
+                            required maxlength="3" />
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Lado Direito: Visualização do Cartão -->
+        <div class="w-1/2 flex flex-col items-center justify-center">
+            <div
+                class="bg-gradient-to-r from-indigo-500 to-purple-600 p-8 rounded-lg shadow-lg w-80 h-48 text-white flex flex-col justify-between relative">
+                <!-- Logo da Bandeira do Cartão -->
+                <img id="cardBrand" src="" alt="Logo do Cartão"
+                    class="absolute top-4 right-4 w-12 h-8 object-contain" />
+
+                <!-- Número do Cartão -->
+                <div id="displayCardNumber" class="text-lg tracking-widest">**** **** **** ****</div>
+
+                <!-- Informações do Cartão -->
+                <div class="flex justify-between items-center">
+                    <div>
+                        <div class="text-xs">NOME DO TITULAR</div>
+                        <div id="displayCardName" class="text-sm uppercase">NOME COMPLETO</div>
+                    </div>
+                    <div>
+                        <div class="text-xs">VALIDADE</div>
+                        <div id="displayExpiryDate" class="text-sm">MM/AA</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botão de Revisão -->
+            <button
+                class="mt-6 w-full bg-green-500 text-white py-2 rounded-md font-semibold hover:bg-green-600 focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                Confirmar Pagamento
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Função para atualizar a visualização do cartão
+        function updateCardDisplay() {
+            const cardNumber = document.getElementById("cardNumber").value;
+            const cardName = document.getElementById("cardName").value.toUpperCase();
+            const expiryDate = document.getElementById("expiryDate").value;
+
+            // Atualizar Número do Cartão com máscara
+            document.getElementById("displayCardNumber").textContent = cardNumber.replace(/(.{4})/g, "$1 ").trim() || "**** **** **** ****";
+
+            // Atualizar Nome do Titular
+            document.getElementById("displayCardName").textContent = cardName || "NOME COMPLETO";
+
+            // Atualizar Data de Validade
+            document.getElementById("displayExpiryDate").textContent = expiryDate || "MM/AA";
+
+            // Atualizar logo da bandeira do cartão (Visa, Mastercard etc.)
+            const brandLogo = document.getElementById("cardBrand");
+            if (/^4/.test(cardNumber)) {
+                brandLogo.src = "https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg"; // Logo Visa
+            } else if (/^5[1-5]/.test(cardNumber)) {
+                brandLogo.src = "https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg"; // Logo Mastercard
+            } else if (/^3[47]/.test(cardNumber)) {
+                brandLogo.src = "https://upload.wikimedia.org/wikipedia/commons/3/35/American_Express_logo.svg"; // Logo American Express
+            } else if (/^(6011|622[1-9][0-9]{0,2}|64[4-9]|65)/.test(cardNumber)) {
+                brandLogo.src = "https://upload.wikimedia.org/wikipedia/commons/e/ef/Discover_Logo.svg"; // Logo Discover
+            } else if (/^30[0-5]|36|38/.test(cardNumber)) {
+                brandLogo.src = "https://upload.wikimedia.org/wikipedia/commons/d/dd/Diners_Club_Logo.svg"; // Logo Diners Club
+            } else if (/^35(2[8-9]|[3-8][0-9])/.test(cardNumber)) {
+                brandLogo.src = "https://upload.wikimedia.org/wikipedia/commons/6/6b/JCB_logo.svg"; // Logo JCB
+            } else if (/^(5067|4576|4011|4389)/.test(cardNumber)) {
+                brandLogo.src = "https://upload.wikimedia.org/wikipedia/commons/b/b8/Elo_Logo.svg"; // Logo Elo
+            } else if (/^(6062|637|6370)/.test(cardNumber)) {
+                brandLogo.src = "https://upload.wikimedia.org/wikipedia/commons/4/4f/Hipercard_logo.svg"; // Logo Hipercard
+            } else {    
+                brandLogo.src = '../../assets/img/logo_white.png'
+            }
+        }
+    </script>
+</body>
+
+</html>

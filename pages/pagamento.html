@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <title>Cadastro da Empresa - MachinON</title>
+
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+
+    <script src="../config/configFirebase.js"></script>
+    <script src="../assets/js/cadastro.js"></script>
+</head>
+
+<body class="bg-gray-900 text-white">
+    <nav class="bg-zinc-900 z-50 shadow-md w-full lg:w-3/5 lg:mx-auto lg:rounded-2xl">
+        <div class="container mx-auto flex items-center p-2">
+            <!-- Logo -->
+            <div class="logo text-xl font-bold">
+                <img src="../assets/img/logo_white.png" alt="MachinON" class="max-w-full h-auto w-24 md:w-32 lg:w-40" />
+            </div>
+
+            <!-- Linha vertical ao lado da logo -->
+            <div class="border-l border-white h-10 mx-4"></div>
+
+            <!-- Links de navegação (escondidos em telas menores que 768px) -->
+            <div class="hidden md:flex space-x-4 items-center">
+                <a href="../index.html" class="poppins-medium underline-animation text-white text-sm">Home</a>
+                <a href="planos.html" class="poppins-medium underline-animation text-white text-sm">Planos</a>
+                <a href="sobreNos.html" class="poppins-medium underline-animation text-white text-sm">Sobre nós</a>
+            </div>
+
+            <!-- Botões de Ação (escondidos em telas menores que 768px) -->
+            <div class="ml-auto hidden md:flex space-x-3 items-center pr-1">
+                <a href="#"
+                    class="relative inline-block px-4 py-2 font-bold text-white bg-blue-600 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-110 hover:bg-blue-700 hover:shadow-lg group overflow-hidden text-center w-30">
+                    <span
+                        class="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400 to-blue-600 opacity-0 transition-opacity duration-300 ease-in-out group-hover:opacity-100"></span>
+                    <span class="relative z-10 poppins-medium text-sm">Acesse aqui</span>
+                </a>
+            </div>
+
+            <!-- Ícone de menu hambúrguer (visível em telas menores que 768px) -->
+            <button id="menu-button" class="ml-auto block md:hidden text-white focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Sidebar para telas menores -->
+    <div id="sidebar"
+        class="fixed left-0 top-0 w-3/4 h-full bg-zinc-900 shadow-lg z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
+        <div class="p-4">
+            <div class="logo text-xl font-bold mb-6">
+                <img src="../assets/img/logo_white.png" alt="MachinON" class="max-w-full h-auto w-24" />
+            </div>
+            <a href="../index.html" class="block poppins-medium text-white text-lg mb-4">Home</a>
+            <a href="planos.html" class="block poppins-medium text-white text-lg mb-4">Planos</a>
+            <a href="sobreNos.html" class="block poppins-medium text-white text-lg mb-4">Sobre nós</a>
+            <a href="#"
+                class="block text-center px-4 py-2 mt-4 font-bold text-white bg-blue-600 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-110 hover:bg-blue-700 hover:shadow-lg">
+                Acesse aqui
+            </a>
+        </div>
+    </div>
+
+    <section class="py-16 bg-gray-900 fade-in">
+        <div class="container mx-auto lg:w-3/5">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-8">
+                Pagamento do Plano
+            </h2>
+
+            <div class="mb-8">
+                <div class="flex justify-center mb-4">
+                    <div class="w-1/3 h-1 bg-blue-600 rounded-l-full"></div>
+                    <div class="w-1/3 h-1 bg-blue-600"></div>
+                    <div class="w-1/3 h-1 bg-blue-600 rounded-r-full"></div>
+                </div>
+                <div class="flex justify-between text-sm text-gray-400">
+                    <span>Dados Pessoais</span>
+                    <span>Pagamento</span>
+                </div>
+            </div>
+
+            <div id="selected-plan" class="text-center bg-gray-800 p-4 rounded-lg font-bold text-lg mb-8">
+                Nenhum plano selecionado. (<a href="cadastro.html" class="underline-animation text-blue-400">Volte</a>
+                para selecionar o que mais te atende)
+            </div>
+
+            <div class="flex justify-between items-center">
+                <!-- Lado Esquerdo: Escolha do método de pagamento -->
+                <div class="w-1/2">
+                    <h2 class="text-lg font-bold mb-4 text-white">
+                        Método de Pagamento
+                    </h2>
+
+                    <!-- Opção de Cartão de Crédito -->
+                    <div
+                        class="bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500 flex items-center justify-between">
+                        <label class="flex items-center space-x-4">
+                            <input type="radio" name="paymentMethod" checked class="form-radio text-green-500" />
+                            <span class="text-lg font-semibold text-white">Cartão de Crédito</span>
+                        </label>
+                    </div>
+
+                    <!-- Formulário de Dados do Cartão -->
+                    <form id="creditCardForm" class="mt-6 space-y-4">
+                        <!-- Número do Cartão -->
+                        <div>
+                            <label for="cardNumber" class="block text-sm font-medium text-white">Número do
+                                Cartão</label>
+                            <input type="text" id="cardNumber" name="cardNumber" placeholder="Número do cartão"
+                                class="mt-1 block w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500"
+                                required minlength="16" maxlength="16" oninput="updateCardDisplay()" />
+                        </div>
+
+                        <!-- Nome no Cartão -->
+                        <div>
+                            <label for="cardName" class="block text-sm font-medium text-white">Nome no Cartão</label>
+                            <input type="text" id="cardName" name="cardName" placeholder="Nome completo"
+                                class="mt-1 block w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500"
+                                required oninput="updateCardDisplay()" />
+                        </div>
+
+                        <!-- Data de Validade e CVV -->
+                        <div class="flex space-x-4">
+                            <div class="w-1/2">
+                                <label for="expiryDate" class="block text-sm font-medium text-white">Validade
+                                    (MM/AA)</label>
+                                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/AA"
+                                    class="mt-1 block w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500"
+                                    required maxlength="5" oninput="updateCardDisplay()" />
+                            </div>
+                            <div class="w-1/2">
+                                <label for="cvv" class="block text-sm font-medium text-white">CVV</label>
+                                <input type="number" minlength="3" maxlength="3" id="cvv" name="cvv" placeholder="CVV"
+                                    class="mt-1 block w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500"
+                                    required maxlength="3" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Lado Direito: Visualização do Cartão -->
+                <div class="w-1/2 flex flex-col items-center justify-center">
+                    <div
+                        class="bg-gradient-to-r from-indigo-500 to-purple-600 p-8 rounded-lg shadow-lg w-80 h-48 text-white flex flex-col justify-between relative">
+                        <!-- Logo da Bandeira do Cartão -->
+                        <img id="cardBrand" src="../assets/img/logo_white.png" alt="Logo do Cartão"
+                            class="absolute top-4 right-4 w-12 h-8 object-contain" />
+
+                        <!-- Número do Cartão -->
+                        <div id="displayCardNumber" class="text-lg tracking-widest">
+                            **** **** **** ****
+                        </div>
+
+                        <!-- Informações do Cartão -->
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <div id="displayCardName" class="text-sm uppercase">
+                                    NOME COMPLETO
+                                </div>
+                            </div>
+                            <div>
+                                <div id="displayExpiryDate" class="text-sm">MM/AA</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botão de Revisão -->
+                    <button
+                        class="mt-6 w-3/5 bg-green-500 text-white py-2 rounded-md font-semibold hover:bg-green-600 focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        Confirmar Pagamento
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-white py-6 mx-auto container flex flex-col border-t-2 border-zinc-700">
+        <div class="flex justify-center md:justify-start">
+            <img src="../assets/img/logo_white.png" alt="Logo MachinON"
+                class="max-w-full h-auto w-24 md:w-32 lg:w-48" />
+        </div>
+        <div class="flex flex-wrap justify-center md:justify-start md:space-x-4 mt-2 text-sm md:text-base">
+            <p class="w-full text-center md:w-auto">© MachinON 2024</p>
+            <a href="#" class="underline-animation">Política de Privacidade</a>
+            <a href="#" class="underline-animation">Política de Cookies</a>
+            <a href="#" class="underline-animation">Termos de uso</a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/main.js" defer></script>
+
+    <script>
+        // Função para carregar o plano selecionado do localStorage
+        function loadSelectedPlan() {
+            const savedPlan = localStorage.getItem("planoSelecionado");
+            const precoPlan = localStorage.getItem("precoPlano");
+            const selected_plan = document.getElementById("selected-plan");
+
+            if (savedPlan) {
+                if (savedPlan == "Plano Platinum") {
+                    selected_plan.classList.add("text-green-400");
+                } else if (savedPlan == "Plano Diamante") {
+                    selected_plan.classList.add("text-blue-400");
+                } else if (savedPlan == "Plano Ouro") {
+                    selected_plan.classList.add("text-yellow-400");
+                }
+                selected_plan.innerText =
+                    "Plano Selecionado: " + savedPlan + ` - Valor: R$ ${precoPlan}`;
+                document.getElementById("plano").value = savedPlan; // Atualiza o campo oculto se houver um plano salvo
+            }
+        }
+
+        // Event Listener para o DOMContentLoaded
+        document.addEventListener("DOMContentLoaded", loadSelectedPlan);
+
+        // Função para atualizar a visualização do cartão
+        function updateCardDisplay() {
+            const cardNumber = document.getElementById("cardNumber").value;
+            const cardName = document
+                .getElementById("cardName")
+                .value.toUpperCase();
+            const expiryDate = document.getElementById("expiryDate").value;
+
+            // Atualizar Número do Cartão com máscara
+            document.getElementById("displayCardNumber").textContent =
+                cardNumber.replace(/(.{4})/g, "$1 ").trim() || "**** **** **** ****";
+
+            // Atualizar Nome do Titular
+            document.getElementById("displayCardName").textContent =
+                cardName || "NOME COMPLETO";
+
+            // Atualizar Data de Validade
+            document.getElementById("displayExpiryDate").textContent =
+                expiryDate || "MM/AA";
+
+            // Atualizar logo da bandeira do cartão (Visa, Mastercard etc.)
+            const brandLogo = document.getElementById("cardBrand");
+            if (/^4/.test(cardNumber)) {
+                brandLogo.src =
+                    "https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg"; // Logo Visa
+            } else if (/^5[1-5]/.test(cardNumber)) {
+                brandLogo.src =
+                    "https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg"; // Logo Mastercard
+            } else if (/^3[47]/.test(cardNumber)) {
+                brandLogo.src =
+                    "https://upload.wikimedia.org/wikipedia/commons/3/35/American_Express_logo.svg"; // Logo American Express
+            } else if (/^(6011|622[1-9][0-9]{0,2}|64[4-9]|65)/.test(cardNumber)) {
+                brandLogo.src =
+                    "https://upload.wikimedia.org/wikipedia/commons/e/ef/Discover_Logo.svg"; // Logo Discover
+            } else if (/^30[0-5]|36|38/.test(cardNumber)) {
+                brandLogo.src =
+                    "https://upload.wikimedia.org/wikipedia/commons/d/dd/Diners_Club_Logo.svg"; // Logo Diners Club
+            } else if (/^35(2[8-9]|[3-8][0-9])/.test(cardNumber)) {
+                brandLogo.src =
+                    "https://upload.wikimedia.org/wikipedia/commons/6/6b/JCB_logo.svg"; // Logo JCB
+            } else if (/^(5067|4576|4011|4389)/.test(cardNumber)) {
+                brandLogo.src =
+                    "https://upload.wikimedia.org/wikipedia/commons/b/b8/Elo_Logo.svg"; // Logo Elo
+            } else if (/^(6062|637|6370)/.test(cardNumber)) {
+                brandLogo.src =
+                    "https://upload.wikimedia.org/wikipedia/commons/4/4f/Hipercard_logo.svg"; // Logo Hipercard
+            } else {
+                brandLogo.src = "../../assets/img/logo_white.png";
+            }
+        }
+
+        document.getElementById('expiryDate').addEventListener("input", (e) => {
+            let value = e.target.value.replace(/\D/g, ""); // Remove qualquer caractere não numérico
+
+            if (value.length > 4) {
+                value = value.slice(0, 4); // Limita a 4 caracteres
+            }
+
+            // Adiciona a barra
+            if (value.length > 2) {
+                value = value.slice(0, 2) + "/" + value.slice(2);
+            }
+
+            e.target.value = value; // Atualiza o valor do input
+        });
+    </script>
+</body>
+
+</html>
