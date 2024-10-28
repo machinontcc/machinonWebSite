@@ -92,3 +92,45 @@ async function handleSubmitEmpresa(event) {
     console.log(data);
     window.location.href = 'pagamento.html';
 }
+
+// Função para simular um pagamento com Firebase
+async function simulatePayment() {
+    try {
+        const db = firebase.firestore();
+        await db.collection("payments").add({
+            user: "user_id",
+            empresaId: '',
+            plano: localStorage.getItem("planoSelecionado"),
+            preco: localStorage.getItem("precoPlano"),
+            paymentMethod: "credit_card",
+            status: "aprovado",
+            timestamp: new Date(),
+        });
+    } catch (error) {
+        console.error("Erro ao simular pagamento:", error);
+        alert("Erro no pagamento.");
+    }
+}
+
+// Função para confirmar pagamento com barra de carregamento
+async function confirmPayment() {
+    const button = document.getElementById("confirm-payment-btn");
+    const buttonText = document.getElementById("button-text");
+    const loadingBar = document.getElementById("loading-bar");
+
+    // Inicia a animação da barra de carregamento
+    buttonText.textContent = "Processando...";
+    loadingBar.style.width = "100%";
+
+    try {
+        // Espera a simulação do pagamento finalizar
+        await simulatePayment();
+
+        // Altera o texto para confirmação e adiciona um ícone de check
+        buttonText.innerHTML = 'Pagamento Confirmado <i class="fas fa-check-circle ml-1"></i>';
+    } catch (error) {
+        buttonText.textContent = "Erro ao processar pagamento";
+        console.error("Erro ao confirmar pagamento:", error);
+    }
+}
+

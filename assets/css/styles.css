@@ -226,3 +226,27 @@ body {
     bottom: 100%;
   }
 }
+
+
+/* Estilos para o botão e a barra de carregamento */
+#confirm-payment-btn {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#button-text {
+  position: relative;
+  z-index: 10;
+}
+
+#loading-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  transition: width 2s ease-in-out;
+  z-index: 5;
+}
