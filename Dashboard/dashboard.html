@@ -4,11 +4,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página com Sidebar Flutuante</title>
+  <title>Dashboard Machinon</title>
   <!-- Link do Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Link para icons -->
   <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <!-- Scripts para banco de dados -->
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+    <script src="../config/configFirebase.js"></script>
+
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
@@ -77,17 +87,10 @@
         </span>
       </button>
 
-      <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all">
+      <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all mt-auto" onclick="handleLogout()">
         <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-          <img src="joe.png" alt="Profile" class="w-7 h-7 rounded-full">
-          <span class="text-lg">Profile</span>
-        </span>
-      </button>
-
-      <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all mt-auto">
-        <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-          <i class="uil uil-bars text-2xl"></i>
-          <span class="text-lg">More</span>
+          <i class="uil uil-signout text-2xl"></i>
+          <span class="text-lg">Sair</span>
         </span>
       </button>
     </nav>
@@ -99,7 +102,7 @@
   <!-- Cabeçalho -->
   <header class="bg-[#050512] p-6 flex justify-between items-center">
     <div>
-      <h2 class="text-sm text-gray-500 font-bold">Olá Usuário,</h2>
+      <h2 class="text-sm text-gray-500 font-bold" id="username">Olá Usuário,</h2>
       <h1 class="text-2xl text-white">Bem-vindo de volta!</h1>
     </div>
     <button class="p-3">
@@ -112,11 +115,30 @@
     <!-- Cards de Sensores -->
     <section class="p-5 rounded-xl">
       <h2 class="text-white text-xl font-semibold mb-5">Sensores</h2>
-      <div class="flex gap-4 overflow-x-auto">
+      <div class="flex gap-4 overflow-x-auto scroll-container">
         <!-- Card Exemplo -->
         <div class="bg-[#1e1e2e] rounded-xl p-4 w-60 min-w-[15rem] text-white shadow-md">
-          <h3 class="text-lg font-semibold">Sensor Nome</h3>
-          <p class="text-gray-300">Detalhes do sensor...</p>
+          <h3 class="text-md">Sensor Temperatura</h3>
+          <h2 class="text-gray-300 text-lg poppins-medium">Valor Atual: 45°C</h2>
+          <p class="text-gray-300">Localizado em: Motor</p>
+        </div>
+
+        <div class="bg-[#1e1e2e] rounded-xl p-4 w-60 min-w-[15rem] text-white shadow-md">
+          <h3 class="text-md">Sensor Temperatura</h3>
+          <h2 class="text-gray-300 text-lg poppins-medium">Valor Atual: 45°C</h2>
+          <p class="text-gray-300">Localizado em: Motor</p>
+        </div>
+
+        <div class="bg-[#1e1e2e] rounded-xl p-4 w-60 min-w-[15rem] text-white shadow-md">
+          <h3 class="text-md">Sensor Temperatura</h3>
+          <h2 class="text-gray-300 text-lg poppins-medium">Valor Atual: 45°C</h2>
+          <p class="text-gray-300">Localizado em: Motor</p>
+        </div>
+
+        <div class="bg-[#1e1e2e] rounded-xl p-4 w-60 min-w-[15rem] text-white shadow-md">
+          <h3 class="text-md">Sensor Temperatura</h3>
+          <h2 class="text-gray-300 text-lg poppins-medium">Valor Atual: 45°C</h2>
+          <p class="text-gray-300">Localizado em: Motor</p>
         </div>
       </div>
     </section>
@@ -176,6 +198,8 @@
     </section>
   </main>
   </div>
+  <!-- Scripts -->
+   <script src="assets/js/home.js"></script>
 </body>
 
 </html>
