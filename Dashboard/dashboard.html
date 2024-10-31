@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página com Sidebar Flutuante</title>
+  <!-- Link do Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body class="font-sans bg-[#050512] text-white">
+
+  <!-- Aviso para dispositivos móveis -->
+  <div class="fixed inset-0 flex items-center justify-center bg-red-100 text-red-800 text-lg p-4 md:hidden">
+    <p>Para acessar este conteúdo em dispositivos móveis, faça o download do nosso aplicativo!</p>
+  </div>
+
+  <!-- Sidebar fixa e estilizada (escondida em dispositivos móveis) -->
+  <div
+    class="hidden md:flex md:flex-col md:fixed top-6 bottom-6 left-6 w-64 bg-gray-800 text-white rounded-xl shadow-2xl p-6 space-y-6">
+    <!-- Logo da Empresa -->
+    <div class="flex items-center space-x-3">
+      <img src="../assets/img/logo_white.png" alt="Logo da Empresa" class="w-full h-16 rounded-full">
+    </div>
+
+    <!-- Links de Navegação com Ícones Font Awesome -->
+    <nav class="flex flex-col space-y-4 poppins-regular">
+
+      <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all">
+        <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
+          <i class="uil uil-estate text-2xl"></i>
+          <span class="text-lg underline-active">Home</span>
+        </span>
+      </button>
+
+      <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all">
+        <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
+          <i class="uil uil-list-ul text-2xl"></i>
+          <span class="text-lg">Atividades</span>
+        </span>
+      </button>
+
+      <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all">
+        <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
+          <i class="uil uil-comment-alt-question text-2xl"></i>
+          <span class="text-lg">FAQ</span>
+        </span>
+      </button>
+
+      <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all relative">
+        <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
+          <i class="uil uil-location-arrow text-2xl relative">
+            <span
+              class="absolute top-[-5px] right-[-10px] text-xs font-medium bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center border border-white">13</span>
+          </i>
+          <span class="text-lg">Messages</span>
+        </span>
+      </button>
+
+      <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all relative">
+        <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
+          <i class="uil uil-heart text-2xl relative">
+            <em class="absolute top-[2px] right-[0px] w-2.5 h-2.5 bg-red-500 border border-white rounded-full"></em>
+          </i>
+          <span class="text-lg">Notifications</span>
+        </span>
+      </button>
+
+      <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all">
+        <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
+          <i class="uil uil-plus-circle text-2xl"></i>
+          <span class="text-lg">Create</span>
+        </span>
+      </button>
+
+      <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all">
+        <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
+          <img src="joe.png" alt="Profile" class="w-7 h-7 rounded-full">
+          <span class="text-lg">Profile</span>
+        </span>
+      </button>
+
+      <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all mt-auto">
+        <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
+          <i class="uil uil-bars text-2xl"></i>
+          <span class="text-lg">More</span>
+        </span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Conteúdo principal (escondido em dispositivos móveis) -->
+  <div class="md:ml-80 p-10 hidden md:block">
+    
+  <!-- Cabeçalho -->
+  <header class="bg-[#050512] p-6 flex justify-between items-center">
+    <div>
+      <h2 class="text-sm text-gray-500 font-bold">Olá Usuário,</h2>
+      <h1 class="text-2xl text-white">Bem-vindo de volta!</h1>
+    </div>
+    <button class="p-3">
+      <i class="fas fa-bars text-white text-2xl"></i>
+    </button>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="p-6 space-y-10">
+    <!-- Cards de Sensores -->
+    <section class="p-5 rounded-xl">
+      <h2 class="text-white text-xl font-semibold mb-5">Sensores</h2>
+      <div class="flex gap-4 overflow-x-auto">
+        <!-- Card Exemplo -->
+        <div class="bg-[#1e1e2e] rounded-xl p-4 w-60 min-w-[15rem] text-white shadow-md">
+          <h3 class="text-lg font-semibold">Sensor Nome</h3>
+          <p class="text-gray-300">Detalhes do sensor...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Opções Gerais -->
+    <section class="space-y-5">
+      <h2 class="text-white text-2xl font-semibold">Opções Gerais</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="flex flex-col items-center text-center space-y-2">
+          <button class="bg-orange-500 w-16 h-16 rounded-xl flex items-center justify-center">
+            <i class="fas fa-wrench text-white text-2xl"></i>
+          </button>
+          <span class="text-white text-xs">Revisões Agendadas</span>
+        </div>
+        <div class="flex flex-col items-center text-center space-y-2">
+          <button class="bg-green-500 w-16 h-16 rounded-xl flex items-center justify-center">
+            <i class="fas fa-cogs text-white text-2xl"></i>
+          </button>
+          <span class="text-white text-xs">Manutenções Realizadas</span>
+        </div>
+        <div class="flex flex-col items-center text-center space-y-2">
+          <button class="bg-yellow-500 w-16 h-16 rounded-xl flex items-center justify-center">
+            <i class="fas fa-bell text-white text-2xl"></i>
+          </button>
+          <span class="text-white text-xs">Notificar Setor</span>
+        </div>
+        <div class="flex flex-col items-center text-center space-y-2">
+          <button class="bg-blue-500 w-16 h-16 rounded-xl flex items-center justify-center">
+            <i class="fas fa-ellipsis-h text-white text-2xl"></i>
+          </button>
+          <span class="text-white text-xs">Mais Opções</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Atividades Programadas -->
+    <section class="space-y-5">
+      <div class="flex justify-between items-center">
+        <h2 class="text-white text-xl font-semibold">Atividades Programadas</h2>
+        <button class="text-white">
+          <i class="far fa-calendar-alt text-2xl"></i>
+        </button>
+      </div>
+      <div class="bg-[#1e1e2e] p-5 rounded-xl">
+        <!-- Exemplo de Atividade com Ícone -->
+        <div class="p-4 mb-4 bg-[#2a2a3c] rounded-xl shadow-md text-white flex items-center space-x-4">
+          <div class="bg-blue-500 w-10 h-10 rounded-full flex items-center justify-center">
+            <i class="fas fa-tasks text-white text-lg"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold">Atividade Nome</h3>
+            <p class="text-gray-300">Detalhes da atividade...</p>
+          </div>
+        </div>
+        <!-- Repetir bloco de atividade conforme necessário -->
+      </div>
+    </section>
+  </main>
+  </div>
+</body>
+
+</html>

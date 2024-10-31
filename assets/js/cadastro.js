@@ -93,44 +93,126 @@ async function handleSubmitEmpresa(event) {
     window.location.href = 'pagamento.html';
 }
 
-// Função para simular um pagamento com Firebase
 async function simulatePayment() {
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    // Função para gerar código aleatório de convite
+    async function generateUniqueCode() {
+        const generateCode = () => Math.random().toString(36).substring(2, 10).toUpperCase(); // Código de 8 caracteres
+        let uniqueCode;
+        let exists = true;
+
+        // Gera e verifica unicidade no Firestore
+        while (exists) {
+            uniqueCode = generateCode();
+            const snapshot = await db.collection("empresas").where("codigoConvite", "==", uniqueCode).get();
+            exists = !snapshot.empty; // Se snapshot for vazio, o código é único
+        }
+        return uniqueCode;
+    }
+
+    // Recupera dados do usuário e da empresa do localStorage e converte para objeto
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    const empresaData = JSON.parse(localStorage.getItem("empresaData"));
+    if (!userData || !empresaData) {
+        alert("Dados do usuário ou da empresa não encontrados.");
+        return;
+    }
+
     try {
-        const db = firebase.firestore();
-        await db.collection("payments").add({
-            user: "user_id",
-            empresaId: '',
-            plano: localStorage.getItem("planoSelecionado"),
-            preco: localStorage.getItem("precoPlano"),
-            paymentMethod: "credit_card",
-            status: "aprovado",
-            timestamp: new Date(),
-        });
+        // Passo 1: Cria um novo usuário no Auth usando email e senha
+        let uid;
+        try {
+            const userCredential = await auth.createUserWithEmailAndPassword(userData.email, userData.senha);
+            uid = userCredential.user.uid;
+        } catch (error) {
+            console.error("Erro na criação de usuário:", error);
+            alert("Erro ao criar usuário.");
+            return;
+        }
+
+        // Passo 2: Criação da empresa com data de vencimento de 1 mês após a data de criação
+        let empresaId;
+        try {
+            const dataCriacao = new Date();
+            const dataVencimento = new Date(dataCriacao);
+            dataVencimento.setMonth(dataCriacao.getMonth() + 1);
+
+            const codigoConvite = await generateUniqueCode(); // Gera código único para a empresa
+
+            const empresaRef = await db.collection("empresas").add({
+                nome: empresaData.nome,
+                dataCriacao: dataCriacao,
+                dataVencimento: dataVencimento,
+                telefone: empresaData.telefone,
+                planoId: userData.plano,
+                statusPagamento: "Ativo",
+                cnpj: empresaData.cnpj,
+                email: empresaData.email,
+                endereco: empresaData.endereco,
+                codigoConvite: codigoConvite
+            });
+
+            empresaId = empresaRef.id;
+        } catch (error) {
+            console.error("Erro na criação da empresa:", error);
+            alert("Erro ao criar empresa.");
+            return;
+        }
+
+        // Passo 3: Criar o usuário na coleção "users" e associá-lo à empresa
+        try {
+            await db.collection("users").doc(uid).set({
+                empresaId: empresaId,
+                email: userData.email,
+                nome: userData.nome,
+                telefone: userData.telefone,
+                cargo: userData.cargo,
+                isAdmin: true,
+            });
+        } catch (error) {
+            console.error("Erro ao criar usuário na coleção 'users':", error);
+            alert("Erro ao criar usuário na base de dados.");
+            return;
+        }
+
+        // Passo 4: Registrar o pagamento e associá-lo ao usuário e à empresa
+        let pagamentoId;
+        try {
+            const pagamentoRef = await db.collection("payments").add({
+                userId: uid,
+                empresaId: empresaId,
+                plano: userData.plano,
+                preco: localStorage.getItem("precoPlano"),
+                paymentMethod: "credit_card",
+                status: "aprovado",
+                timestamp: new Date(),
+            });
+
+            pagamentoId = pagamentoRef.id;
+        } catch (error) {
+            console.error("Erro ao registrar pagamento:", error);
+            alert("Erro ao registrar pagamento.");
+            return;
+        }
+
+        // Atualizar o documento da empresa para adicionar o ID do pagamento
+        try {
+            const empresaRef = db.collection("empresas").doc(empresaId);
+            await empresaRef.update({ pagamentoId: pagamentoId });
+        } catch (error) {
+            console.error("Erro ao atualizar empresa com ID do pagamento:", error);
+            alert("Erro ao atualizar empresa com ID do pagamento.");
+            return;
+        }
+
+        // Limpa o localStorage e redireciona para a página de confirmação
+        localStorage.clear();
+        window.location.href = 'cadConcluido.html';
+
     } catch (error) {
-        console.error("Erro ao simular pagamento:", error);
-        alert("Erro no pagamento.");
+        console.error("Erro inesperado no processo de pagamento:", error);
+        alert("Erro inesperado no pagamento.");
     }
 }
-
-// Função para confirmar pagamento com barra de carregamento
-async function confirmPayment() {
-    const button = document.getElementById("confirm-payment-btn");
-    const buttonText = document.getElementById("button-text");
-    const loadingBar = document.getElementById("loading-bar");
-
-    // Inicia a animação da barra de carregamento
-    buttonText.textContent = "Processando...";
-    loadingBar.style.width = "100%";
-
-    try {
-        // Espera a simulação do pagamento finalizar
-        await simulatePayment();
-
-        // Altera o texto para confirmação e adiciona um ícone de check
-        buttonText.innerHTML = 'Pagamento Confirmado <i class="fas fa-check-circle ml-1"></i>';
-    } catch (error) {
-        buttonText.textContent = "Erro ao processar pagamento";
-        console.error("Erro ao confirmar pagamento:", error);
-    }
-}
-

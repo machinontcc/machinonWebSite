@@ -84,17 +84,6 @@
         esforço!
       </p>
 
-      <!-- Botões de troca (Mensal/Anual) -->
-      <div class="flex justify-center space-x-4 mb-24">
-        <button id="btn-mensal" class="px-6 py-2 font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700">
-          Mensal
-        </button>
-        <button id="btn-anual"
-          class="px-6 py-2 font-bold text-blue-400 bg-transparent border-2 border-blue-600 rounded-xl hover:bg-blue-700 hover:text-white transition-all">
-          Anual
-        </button>
-      </div>
-
       <!-- Seção de Cards de Planos -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <!-- Plano Ouro -->
@@ -182,69 +171,6 @@
   </footer>
 
   <script>
-    const mensalButton = document.getElementById("btn-mensal");
-    const anualButton = document.getElementById("btn-anual");
-
-    const precoOuro = document.getElementById("preco-ouro");
-    const precoDiamante = document.getElementById("preco-diamante");
-    const precoPlatinum = document.getElementById("preco-platinum");
-
-    const bolhaDesconto1 = document.getElementById("desconto1");
-    const bolhaDesconto2 = document.getElementById("desconto2");
-
-    // Lógica para exibir os preços e controlar a exibição das bolhas de desconto
-    mensalButton.addEventListener("click", () => {
-      precoOuro.innerHTML = "R$ 29,90 /mês";
-      precoDiamante.innerHTML = "R$ 64,90 /mês";
-      precoPlatinum.innerHTML = "R$ 99,90 /mês";
-
-      // Esconde as bolhas de desconto no modo mensal
-      bolhaDesconto1.classList.add("hidden");
-      bolhaDesconto2.classList.add("hidden");
-
-      // Atualiza os estilos dos botões
-      mensalButton.classList.add("bg-blue-600", "text-white");
-      mensalButton.classList.remove(
-        "bg-transparent",
-        "border-2",
-        "border-blue-600",
-        "text-blue-600"
-      );
-
-      anualButton.classList.remove("bg-blue-600", "text-white");
-      anualButton.classList.add(
-        "bg-transparent",
-        "border-2",
-        "border-blue-600"
-      );
-    });
-
-    anualButton.addEventListener("click", () => {
-      precoOuro.innerHTML = "R$ 323,10 /ano";
-      precoDiamante.innerHTML = "R$ 723,47 /ano";
-      precoPlatinum.innerHTML = "R$ 1.079,10 /ano";
-
-      // Exibe as bolhas de desconto no modo anual
-      bolhaDesconto1.classList.remove("hidden");
-      bolhaDesconto2.classList.remove("hidden");
-
-      // Atualiza os estilos dos botões
-      anualButton.classList.add("bg-blue-600", "text-white");
-      anualButton.classList.remove(
-        "bg-transparent",
-        "border-2",
-        "border-blue-600"
-      );
-
-      mensalButton.classList.remove("bg-blue-600", "text-white");
-      mensalButton.classList.add(
-        "bg-transparent",
-        "border-2",
-        "border-blue-600",
-        "text-blue-600"
-      );
-    });
-
     function selecionarPlano(plano, preco) {
       // Salva o plano no localStorage
       localStorage.setItem('planoSelecionado', plano);
@@ -253,9 +179,53 @@
       // Redireciona para a próxima página
       window.location.href = "cadastro.html";
     }
+
+     // Iniciando o ScrollReveal e definindo as animações para diferentes seções
+  document.addEventListener("DOMContentLoaded", function () {
+    // Animação para a etiqueta e o título principal
+    ScrollReveal().reveal('.rounded-full', {
+      origin: 'top',
+      distance: '50px',
+      duration: 1000,
+      opacity: 0,
+      easing: 'ease-in-out'
+    });
+
+    ScrollReveal().reveal('h2', {
+      origin: 'bottom',
+      distance: '30px',
+      duration: 1000,
+      delay: 200,
+      opacity: 0,
+      easing: 'ease-in-out'
+    });
+
+    // Animação para os botões de troca (Mensal/Anual)
+    ScrollReveal().reveal('#btn-mensal, #btn-anual', {
+      origin: 'bottom',
+      distance: '20px',
+      duration: 800,
+      delay: 400,
+      opacity: 0,
+      interval: 100, // Aplicado em sequência
+      easing: 'ease-in-out'
+    });
+
+    // Animação para os cards dos planos
+    ScrollReveal().reveal('#plano-ouro, #plano-diamante, #plano-black', {
+      origin: 'left',
+      distance: '50px',
+      duration: 1000,
+      delay: 500,
+      opacity: 0,
+      interval: 200, // Aplicado em sequência
+      easing: 'ease-in-out'
+    });
+  });
   </script>
   <!-- Scripts -->
   <script src="../assets/js/main.js" defer></script>
+  <script src="https://unpkg.com/scrollreveal"></script>
 </body>
 
 </html>

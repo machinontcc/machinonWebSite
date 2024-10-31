@@ -11,6 +11,7 @@
 
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
 
     <script src="../config/configFirebase.js"></script>
     <script src="../assets/js/cadastro.js"></script>
@@ -19,22 +20,17 @@
 <body class="bg-gray-900 text-white">
     <nav class="bg-zinc-900 z-50 shadow-md w-full lg:w-3/5 lg:mx-auto lg:rounded-2xl">
         <div class="container mx-auto flex items-center p-2">
-            <!-- Logo -->
             <div class="logo text-xl font-bold">
                 <img src="../assets/img/logo_white.png" alt="MachinON" class="max-w-full h-auto w-24 md:w-32 lg:w-40" />
             </div>
-
-            <!-- Linha vertical ao lado da logo -->
             <div class="border-l border-white h-10 mx-4"></div>
 
-            <!-- Links de navegação (escondidos em telas menores que 768px) -->
             <div class="hidden md:flex space-x-4 items-center">
                 <a href="../index.html" class="poppins-medium underline-animation text-white text-sm">Home</a>
                 <a href="planos.html" class="poppins-medium underline-animation text-white text-sm">Planos</a>
                 <a href="sobreNos.html" class="poppins-medium underline-animation text-white text-sm">Sobre nós</a>
             </div>
 
-            <!-- Botões de Ação (escondidos em telas menores que 768px) -->
             <div class="ml-auto hidden md:flex space-x-3 items-center pr-1">
                 <a href="#"
                     class="relative inline-block px-4 py-2 font-bold text-white bg-blue-600 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-110 hover:bg-blue-700 hover:shadow-lg group overflow-hidden text-center w-30">
@@ -44,7 +40,6 @@
                 </a>
             </div>
 
-            <!-- Ícone de menu hambúrguer (visível em telas menores que 768px) -->
             <button id="menu-button" class="ml-auto block md:hidden text-white focus:outline-none">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
@@ -54,7 +49,6 @@
         </div>
     </nav>
 
-    <!-- Sidebar para telas menores -->
     <div id="sidebar"
         class="fixed left-0 top-0 w-3/4 h-full bg-zinc-900 shadow-lg z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
         <div class="p-4">
@@ -94,25 +88,22 @@
                 para selecionar o que mais te atende)
             </div>
 
-            <div class="flex justify-between items-center">
-                <!-- Lado Esquerdo: Escolha do método de pagamento -->
-                <div class="w-1/2">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0">
                     <h2 class="text-lg font-bold mb-4 text-white">
                         Método de Pagamento
                     </h2>
 
-                    <!-- Opção de Cartão de Crédito -->
                     <div
                         class="bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500 flex items-center justify-between">
                         <label class="flex items-center space-x-4">
                             <input type="radio" name="paymentMethod" checked class="form-radio text-green-500" />
-                            <span class="text-lg font-semibold text-white">Cartão de Crédito</span>
+                            <span class="text-lg font-semibold text-white">Cartão de Crédito <i
+                                    class="fa-solid fa-credit-card ml-2"></i></span>
                         </label>
                     </div>
 
-                    <!-- Formulário de Dados do Cartão -->
                     <form id="creditCardForm" class="mt-6 space-y-4">
-                        <!-- Número do Cartão -->
                         <div>
                             <label for="cardNumber" class="block text-sm font-medium text-white">Número do
                                 Cartão</label>
@@ -121,7 +112,6 @@
                                 required minlength="16" maxlength="16" oninput="updateCardDisplay()" />
                         </div>
 
-                        <!-- Nome no Cartão -->
                         <div>
                             <label for="cardName" class="block text-sm font-medium text-white">Nome no Cartão</label>
                             <input type="text" id="cardName" name="cardName" placeholder="Nome completo"
@@ -129,7 +119,6 @@
                                 required oninput="updateCardDisplay()" />
                         </div>
 
-                        <!-- Data de Validade e CVV -->
                         <div class="flex space-x-4">
                             <div class="w-1/2">
                                 <label for="expiryDate" class="block text-sm font-medium text-white">Validade
@@ -148,25 +137,15 @@
                     </form>
                 </div>
 
-                <!-- Lado Direito: Visualização do Cartão -->
-                <div class="w-1/2 flex flex-col items-center justify-center">
+                <div class="w-full md:w-1/2 flex flex-col items-center justify-center">
                     <div
-                        class="bg-gradient-to-r from-indigo-500 to-purple-600 p-8 rounded-lg shadow-lg w-80 h-48 text-white flex flex-col justify-between relative">
-                        <!-- Logo da Bandeira do Cartão -->
+                        class="bg-gradient-to-r from-indigo-500 to-purple-600 p-4 md:p-8 rounded-lg shadow-lg w-4/5 md:w-80 h-48 text-white flex flex-col justify-between relative">
                         <img id="cardBrand" src="../assets/img/logo_white.png" alt="Logo do Cartão"
-                            class="absolute top-4 right-4 w-12 h-8 object-contain" />
-
-                        <!-- Número do Cartão -->
-                        <div id="displayCardNumber" class="text-lg tracking-widest">
-                            **** **** **** ****
-                        </div>
-
-                        <!-- Informações do Cartão -->
+                            class="absolute top-4 right-4 w-10 h-6 md:w-12 md:h-8 object-contain" />
+                        <div id="displayCardNumber" class="text-lg tracking-widest">**** **** **** ****</div>
                         <div class="flex justify-between items-center">
                             <div>
-                                <div id="displayCardName" class="text-sm uppercase">
-                                    NOME COMPLETO
-                                </div>
+                                <div id="displayCardName" class="text-sm uppercase">NOME COMPLETO</div>
                             </div>
                             <div>
                                 <div id="displayExpiryDate" class="text-sm">MM/AA</div>
@@ -174,29 +153,16 @@
                         </div>
                     </div>
 
-                    <button id="confirm-payment-btn" onclick="confirmPayment()"
-                        class="relative w-3/5 bg-green-500 mt-12 poppins-medium text-white py-2 rounded-md font-semibold overflow-hidden transition-all duration-300 ease-in-out hover:bg-green-600 focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    <button id="confirm-payment-btn" onclick="simulatePayment()"
+                        class="relative w-3/5 bg-green-500 mt-4 sm:mt-8 poppins-medium text-white py-2 rounded-md font-semibold overflow-hidden transition-all duration-300 ease-in-out hover:bg-green-600 focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                         <span id="button-text">Confirmar Pagamento</span>
                         <div id="loading-bar" class="absolute inset-0 bg-green-700 w-0 h-full"></div>
                     </button>
-
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="text-white py-6 mx-auto container flex flex-col border-t-2 border-zinc-700">
-        <div class="flex justify-center md:justify-start">
-            <img src="../assets/img/logo_white.png" alt="Logo MachinON"
-                class="max-w-full h-auto w-24 md:w-32 lg:w-48" />
-        </div>
-        <div class="flex flex-wrap justify-center md:justify-start md:space-x-4 mt-2 text-sm md:text-base">
-            <p class="w-full text-center md:w-auto">© MachinON 2024</p>
-            <a href="#" class="underline-animation">Política de Privacidade</a>
-            <a href="#" class="underline-animation">Política de Cookies</a>
-            <a href="#" class="underline-animation">Termos de uso</a>
-        </div>
-    </footer>
 
     <!-- Scripts -->
     <script src="../assets/js/main.js" defer></script>
