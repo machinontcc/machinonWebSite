@@ -1,28 +1,65 @@
-document.getElementById('createActivityButton').onclick = function() {
+document.getElementById('createActivityButton').onclick = async function() {
     const userString = localStorage.getItem('userData');
     const userData = JSON.parse(userString);
+    const userUid = localStorage.getItem('uidUser');
     const titulo = document.getElementById('titulo').value;
     const descricao = document.getElementById('descricao').value;
     const data = document.getElementById('data').value;
     
-    // Aqui você deve adicionar a lógica para armazenar a atividade no Firestore, por exemplo.
-    // firebase.firestore().collection('atividades').add({...});
-    
-    // Exibir mensagem de sucesso
-    showAlert(`Atividade "${titulo}" criada com sucesso!`);
+     // Verifique se todos os campos necessários estão preenchidos
+     if (!titulo || !descricao || !data) {
+        alert("Por favor, preencha todos os campos.");
+        return;
+    }
+
+    // Adiciona um novo documento na coleção 'atividades'
+    db.collection(`empresas/${userData.empresaId}/atividades`).add({
+        titulo: titulo,
+        descricao: descricao,
+        data: data,
+        responsavel: userUid,
+        status: 'Agendada',
+        createdAt: firebase.firestore.Timestamp.now()
+    })
+    .then(async function(docRef) {
+        console.log("Documento escrito com ID: ", docRef.id);
+        showAlertModal(`Atividade "${titulo}" criada com sucesso!`, true);
+        await createNotification("Nova Atividade Adicionada", `A atividade ${titulo} foi adicionada com sucesso.`, userData.empresaId);
+    })
+    .catch(function(error) {
+        console.error("Erro ao adicionar documento: ", error);
+        showAlertModal("Erro ao criar atividade, tente novamente.", false);
+    });
 };
 
 
 // Função para mostrar o alerta
-function showAlert(message) {
-    const alertModal = document.getElementById('alertModal');
-    const alertMessage = document.getElementById('alertMessage');
-    alertMessage.innerText = message;
-    alertModal.classList.remove('hidden');
+function showAlertModal(message, isSuccess) {
+    const modal = document.getElementById('alertModal');
+    const title = modal.querySelector('h2');
+    const messageElement = document.getElementById('alertMessage');
+
+    if (isSuccess) {
+        title.innerHTML = 'Atividade Criada <i class="fa-regular fa-circle-check"></i>';
+        title.classList.remove('text-red-500'); // Caso esteja com a classe de erro
+        title.classList.add('text-green-500'); // Altera a cor para verde em caso de sucesso
+    } else {
+        title.innerHTML = 'Erro ao Criar Atividade <i class="fa-solid fa-circle-xmark"></i>';
+        title.classList.remove('text-green-500'); // Caso esteja com a classe de sucesso
+        title.classList.add('text-red-500'); // Altera a cor para vermelho em caso de erro
+    }
+
+    messageElement.innerHTML = message;
+
+    // Exibe o modal
+    modal.classList.remove('hidden');
 }
 
 // Função para fechar o alerta
 function closeAlertModal() {
+    document.getElementById('titulo').value = '';
+    document.getElementById('descricao').value = '';
+    document.getElementById('data').value = '';
     const alertModal = document.getElementById('alertModal');
     alertModal.classList.add('hidden');
 }

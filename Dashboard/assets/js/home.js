@@ -1,55 +1,3 @@
-async function fetchUserInfo() {
-    const uidUser = localStorage.getItem('uidUser');
-
-    if (uidUser) {
-        await db.collection('users').doc(uidUser).get()
-            .then((doc) => {
-                if (doc.exists) {
-                    const userData = doc.data();
-                    // Converte userData em string JSON antes de armazenar
-                    localStorage.setItem('userData', JSON.stringify(userData));
-                    console.log('Informações carregadas com sucesso!');
-                    console.log(userData);
-                } else {
-                    console.error("Nenhum documento encontrado com esse uid.");
-                }
-
-                fetchEmpresaInfo();
-            })
-            .catch((error) => {
-                console.error("Erro ao buscar informações do usuário: ", error);
-            });
-    } else {
-        console.error("Nenhum uid encontrado no localStorage.");
-    }
-}
-
-async function fetchEmpresaInfo() {
-    const userDataString = localStorage.getItem('userData')
-
-    if (userDataString) { // Verifica se userDataString não é null
-        const userData = JSON.parse(userDataString); // Faz o parse para objeto
-
-        await db.collection('empresas').doc(userData.empresaId).get()
-            .then((doc) => {
-                if (doc.exists) {
-                    const empresaData = doc.data();
-                    // Converte userData em string JSON antes de armazenar
-                    localStorage.setItem('empresaData', JSON.stringify(empresaData));
-                    console.log('Informações da empresa carregadas com sucesso!');
-                    console.log(empresaData);
-                } else {
-                    console.error("Nenhum documento encontrado com esse uid.");
-                }
-            })
-            .catch((error) => {
-                console.error("Erro ao buscar informações da empresa: ", error);
-            });
-    }
-}
-
-
-
 function listenToSensors() {
     const uidUser = localStorage.getItem('userData');
     const sensorContainer = document.getElementById('sensor-container');
@@ -142,12 +90,15 @@ function listenToAtividades() {
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchUserInfo(); // Chama a função para buscar as informações do usuário
     const userDataString = localStorage.getItem('userData'); // Obtém os dados do usuário do localStorage
+    const empresaDataString = localStorage.getItem('empresaData');
 
     if (userDataString) { // Verifica se userDataString não é null
         const userData = JSON.parse(userDataString); // Faz o parse para objeto
+        const empresaData = JSON.parse(empresaDataString);
 
         // Atualiza o texto do elemento com o id 'username'
         document.getElementById('username').innerText = `Olá, ${userData.nome}`;
+        document.getElementById('titleSensores').innerText = `Sensores da Empresa: ${empresaData.nome}`
     } else {
         // Caso não haja dados, você pode definir um valor padrão ou uma mensagem
         document.getElementById('username').innerText = 'Olá, Usuário';

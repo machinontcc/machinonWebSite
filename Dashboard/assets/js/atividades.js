@@ -142,10 +142,19 @@ function setFiltroButtonsEnabled(enabled) {
     });
 }
 
+const getQueryParam = (param) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+};
 
 // Inicializa as atividades ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {
-    fetchAtividades();
+    const filter = getQueryParam('filter');
+    if (filter === 'Agendada') {
+        fetchAtividades(filter);
+    } else {
+        fetchAtividades();
+    }
 });
 
 // Adiciona evento de click para os botões de filtro

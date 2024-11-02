@@ -1,147 +1,241 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Machinon - Criar Atividade</title>
     <!-- Link do Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Link para icons -->
-    <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <link
+      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Scripts para banco de dados -->
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
-    <script src="../../config/configFirebase.js"></script>
+    <script src="../config/configFirebase.js"></script>
 
-    <link rel="stylesheet" href="../assets/css/styles.css">
-</head>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
 
-<body class="font-sans bg-[#050512] text-white">
-
+  <body class="font-sans bg-[#050512] text-white">
     <!-- Aviso para dispositivos móveis -->
-    <div class="fixed inset-0 flex items-center justify-center bg-red-100 text-red-800 text-lg p-4 md:hidden">
-        <p>Para acessar este conteúdo em dispositivos móveis, faça o download do nosso aplicativo!</p>
+    <div
+      class="fixed inset-0 flex items-center justify-center bg-red-100 text-red-800 text-lg p-4 md:hidden"
+    >
+      <p>
+        Para acessar este conteúdo em dispositivos móveis, faça o download do
+        nosso aplicativo!
+      </p>
     </div>
 
     <!-- Sidebar fixa e estilizada (escondida em dispositivos móveis) -->
-    <div class="hidden md:flex md:flex-col md:fixed top-6 bottom-6 left-6 w-64 bg-gray-800 text-white rounded-xl shadow-2xl p-6 space-y-6">
-        <!-- Logo da Empresa -->
-        <div class="flex items-center space-x-3">
-            <img src="../assets/img/logo_white.png" alt="Logo da Empresa" class="w-full h-16 rounded-full">
-        </div>
+    <div
+    class="hidden md:flex md:flex-col md:fixed top-6 bottom-6 left-6 w-64 bg-gray-800 text-white rounded-xl shadow-2xl p-6 space-y-6"
+    >
+    <!-- Logo da Empresa -->
+    <div class="flex items-center space-x-3">
+      <img
+        src="../assets/img/logo_white.png"
+        alt="Logo da Empresa"
+        class="w-full h-16 rounded-full"
+      />
+    </div>
+    
+    <!-- Links de Navegação com Ícones Font Awesome -->
+    <nav class="flex flex-col space-y-4 poppins-regular">
+      <a href="dashboard.html">
+        <button
+          class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+        >
+          <span
+            class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+          >
+            <i class="uil uil-estate text-2xl"></i>
+            <span class="text-lg">Home</span>
+          </span>
+        </button>
+      </a>
+    
+      <a href="atividades.html">
+        <button
+          class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+        >
+          <span
+            class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+          >
+            <i class="uil uil-list-ul text-2xl"></i>
+            <span class="text-lg underline-active">Atividades</span>
+          </span>
+        </button>
+      </a>
+    
+      <a href="funcionarios.html">
+        <button
+          class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+        >
+          <span
+            class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+          >
+            <i class="uil uil-users-alt text-2xl"></i>
+            <span class="text-lg">Funcionários</span>
+          </span>
+        </button>
+      </a>
+    
+      <a href="notificacoes.html">
+      <button
+        class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all relative"
+      >
+        <span
+          class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+        >
+          <i class="uil uil-bell text-2xl relative">
+            <em
+              class="absolute top-[2px] right-[0px] w-2.5 h-2.5 bg-red-500 border border-white rounded-full"
+              style="display: none;"
+            ></em>
+          </i>
+          <span class="text-lg">Notificações</span>
+        </span>
+      </button></a>
 
-        <!-- Links de Navegação com Ícones Font Awesome -->
-        <nav class="flex flex-col space-y-4 poppins-regular">
-
-            <a href="dashboard.html">
-                <button class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all">
-                    <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                        <i class="uil uil-estate text-2xl"></i>
-                        <span class="text-lg">Home</span>
-                    </span>
-                </button>
-            </a>
-
-            <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all">
-                <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                    <i class="uil uil-list-ul text-2xl"></i>
-                    <span class="text-lg underline-active">Atividades</span>
-                </span>
-            </button>
-
-            <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all">
-                <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                    <i class="uil uil-comment-alt-question text-2xl"></i>
-                    <span class="text-lg">FAQ</span>
-                </span>
-            </button>
-
-            <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all relative">
-                <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                    <i class="uil uil-location-arrow text-2xl relative">
-                        <span class="absolute top-[-5px] right-[-10px] text-xs font-medium bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center border border-white">13</span>
-                    </i>
-                    <span class="text-lg">Messages</span>
-                </span>
-            </button>
-
-            <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all relative">
-                <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                    <i class="uil uil-heart text-2xl relative">
-                        <em class="absolute top-[2px] right-[0px] w-2.5 h-2.5 bg-red-500 border border-white rounded-full"></em>
-                    </i>
-                    <span class="text-lg">Notifications</span>
-                </span>
-            </button>
-
-            <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all">
-                <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                    <i class="uil uil-plus-circle text-2xl"></i>
-                    <span class="text-lg">Create</span>
-                </span>
-            </button>
-
-            <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all mt-auto" onclick="handleLogout()">
-                <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                    <i class="uil uil-signout text-2xl"></i>
-                    <span class="text-lg">Sair</span>
-                </span>
-            </button>
-        </nav>
+      <a href="relatorios.html"> <!-- Link adicionado para a página de relatórios -->
+        <button class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all">
+            <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
+                <i class="uil uil-file-info-alt text-2xl"></i> <!-- Ícone para Relatórios -->
+                <span class="text-lg">Relatórios</span>
+            </span>
+        </button>
+      </a>
+    
+      <a href="perfil.html">
+        <button
+          class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+        >
+          <span
+            class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+          >
+            <i class="uil uil-user-circle text-2xl"></i>
+            <span class="text-lg">Perfil</span>
+          </span>
+        </button>
+      </a>
+    
+      <button
+        class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all mt-auto"
+        onclick="handleLogout()"
+      >
+        <span
+          class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+        >
+          <i class="uil uil-signout text-2xl"></i>
+          <span class="text-lg">Sair</span>
+        </span>
+      </button>
+    </nav>
     </div>
 
     <!-- Conteúdo principal -->
     <div class="md:ml-80 p-10">
+      <!-- Seção para Criar Atividade -->
+      <section class="mt-10 bg-[#1e1e2e] p-6 rounded-xl">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-semibold">Criar Atividades</h2>
+          <button
+            onclick="location.href='atividades.html'"
+            class="text-white p-2 w-10 rounded-full bg-blue-500 hover:bg-blue-600"
+          >
+            <i class="fas fa-arrow-left text-xl"></i>
+          </button>
+        </div>
 
-        <!-- Seção para Criar Atividade -->
-        <section class="mt-10 bg-[#1e1e2e] p-6 rounded-xl">
-            <h2 class="text-xl font-semibold mb-6">Criar Atividade</h2>
+        <div>
+          <label for="responsavel" class="block text-sm font-medium text-white"
+            >Responsável (Não é possível modificar):</label
+          >
+          <input
+            type="text"
+            id="responsavel"
+            class="mt-1 block w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600"
+            readonly
+          />
+        </div>
 
-            <div>
-                <label for="responsavel" class="block text-sm font-medium text-white">Responsável (Não é possível modificar):</label>
-                <input type="text" id="responsavel" class="mt-1 block w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600" readonly>
-            </div>
+        <div class="mt-4">
+          <label for="titulo" class="block text-sm font-medium text-white"
+            >Título</label
+          >
+          <input
+            type="text"
+            id="titulo"
+            class="mt-1 block w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600"
+          />
+        </div>
 
-            <div class="mt-4">
-                <label for="titulo" class="block text-sm font-medium text-white">Título</label>
-                <input type="text" id="titulo" class="mt-1 block w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600">
-            </div>
+        <div class="mt-4">
+          <label for="descricao" class="block text-sm font-medium text-white"
+            >Descrição</label
+          >
+          <textarea
+            id="descricao"
+            class="mt-1 block w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600"
+          ></textarea>
+        </div>
 
-            <div class="mt-4">
-                <label for="descricao" class="block text-sm font-medium text-white">Descrição</label>
-                <textarea id="descricao" class="mt-1 block w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600"></textarea>
-            </div>
+        <div class="mt-4">
+          <label for="data" class="block text-sm font-medium text-white"
+            >Data:</label
+          >
+          <input
+            type="text"
+            id="data"
+            class="mt-1 block w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600"
+          />
+        </div>
 
-            <div class="mt-4">
-                <label for="data" class="block text-sm font-medium text-white">Data:</label>
-                <input type="text" id="data" class="mt-1 block w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600">
-            </div>
-
-            <div class="mt-6 flex justify-end">
-                <button id="createActivityButton" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Criar Atividade</button>
-            </div>
-        </section>
+        <div class="mt-6 flex justify-end">
+          <button
+            id="createActivityButton"
+            class="bg-blue-500 text-white px-4 py-2 rounded-lg"
+          >
+            Criar Atividade
+          </button>
+        </div>
+      </section>
     </div>
 
     <!-- Modal de Alerta -->
-    <div id="alertModal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden">
-        <div class="bg-gray-900 p-6 rounded-lg w-11/12 md:w-1/3">
-            <h2 class="text-xl font-semibold mb-4">Atividade Criada <i class="fa-regular fa-circle-check"></i></h2>
-            <p id="alertMessage" class="text-white"></p>
-            <div class="mt-6 flex justify-end">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-lg" onclick="closeAlertModal()">Fechar</button>
-            </div>
+    <div
+      id="alertModal"
+      class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden"
+    >
+      <div class="bg-gray-900 p-6 rounded-lg w-11/12 md:w-1/3">
+        <h2 class="text-xl font-semibold mb-4" id="alertTitle">
+          Atividade Criada <i class="fa-regular fa-circle-check"></i>
+        </h2>
+        <p id="alertMessage" class="text-white"></p>
+        <div class="mt-6 flex justify-end">
+          <button
+            class="bg-blue-500 text-white px-4 py-2 rounded-lg"
+            onclick="closeAlertModal()"
+          >
+            Fechar
+          </button>
         </div>
+      </div>
     </div>
 
     <!-- Scripts -->
     <script src="assets/js/main.js"></script>
     <script src="assets/js/criarAtividades.js"></script>
-</body>
-
+  </body>
 </html>

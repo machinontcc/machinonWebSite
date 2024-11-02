@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios de Sensores e Atividades</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Relatório de Sensores e Atividades</h1>
+        <button id="download-pdf" class="btn btn-primary">Baixar PDF</button>
+        <div id="relatorio-container">
+            <div id="dados-sensores">
+                <h2>Dados dos Sensores</h2>
+                <p id="sensor-activity">Atividades dos Sensores: 0</p>
+                <p id="sensor-alerts">Alertas de Sensores: 0</p>
+            </div>
+
+            <div id="dados-funcionarios">
+                <h2>Dados dos Funcionários</h2>
+                <p id="funcionarios-adicionados">Funcionários Adicionados: 0</p>
+            </div>
+
+            <div id="dados-atividades">
+                <h2>Dados das Atividades</h2>
+                <p id="atividades-concluidas">Atividades Concluídas: 0</p>
+                <p id="atividades-canceladas">Atividades Canceladas: 0</p>
+                <p id="atividades-agendadas">Atividades Agendadas: 0</p>
+                <p id="percentual-completado">Percentual Completado: 0%</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        async function loadReportData() {
+            const reportData = {
+                sensores: {
+                    atividades: 120,
+                    alertas: 5,
+                },
+                funcionarios: {
+                    adicionados: 10,
+                },
+                atividades: {
+                    concluídas: 80,
+                    canceladas: 5,
+                    agendadas: 15,
+                }
+            };
+
+            document.getElementById('sensor-activity').innerText = `Atividades dos Sensores: ${reportData.sensores.atividades}`;
+            document.getElementById('sensor-alerts').innerText = `Alertas de Sensores: ${reportData.sensores.alertas}`;
+            document.getElementById('funcionarios-adicionados').innerText = `Funcionários Adicionados: ${reportData.funcionarios.adicionados}`;
+            document.getElementById('atividades-concluidas').innerText = `Atividades Concluídas: ${reportData.atividades.concluídas}`;
+            document.getElementById('atividades-canceladas').innerText = `Atividades Canceladas: ${reportData.atividades.canceladas}`;
+            document.getElementById('atividades-agendadas').innerText = `Atividades Agendadas: ${reportData.atividades.agendadas}`;
+
+            const totalAtividades = reportData.atividades.concluídas + reportData.atividades.canceladas + reportData.atividades.agendadas;
+            const percentualCompletado = totalAtividades ? (reportData.atividades.concluídas / totalAtividades * 100).toFixed(2) : 0;
+            document.getElementById('percentual-completado').innerText = `Percentual Completado: ${percentualCompletado}%`;
+        }
+
+        document.getElementById('download-pdf').addEventListener('click', () => {
+            const element = document.getElementById('relatorio-container');
+
+            const opt = {
+                margin:       1,
+                filename:     'relatorio_sensores_atividades.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().from(element).set(opt).save();
+        });
+
+        document.addEventListener('DOMContentLoaded', loadReportData);
+    </script>
+</body>
+</html>

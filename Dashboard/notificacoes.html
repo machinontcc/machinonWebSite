@@ -3,10 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Machinon</title>
-    <!-- Link do Tailwind CSS CDN -->
+    <title>Notificações - Dashboard Machinon</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Link para icons -->
     <link
       href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
       rel="stylesheet"
@@ -16,27 +14,15 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- Scripts para banco de dados -->
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
-    <script src="../../config/configFirebase.js"></script>
+    <script src="../config/configFirebase.js"></script>
 
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
 
   <body class="font-sans bg-[#050512] text-white">
-    <!-- Aviso para dispositivos móveis -->
-    <div
-      class="fixed inset-0 flex items-center justify-center bg-red-100 text-red-800 text-lg p-4 md:hidden"
-    >
-      <p>
-        Para acessar este conteúdo em dispositivos móveis, faça o download do
-        nosso aplicativo!
-      </p>
-    </div>
-
     <!-- Sidebar fixa e estilizada (escondida em dispositivos móveis) -->
     <div
       class="hidden md:flex md:flex-col md:fixed top-6 bottom-6 left-6 w-64 bg-gray-800 text-white rounded-xl shadow-2xl p-6 space-y-6"
@@ -73,7 +59,7 @@
               class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
             >
               <i class="uil uil-list-ul text-2xl"></i>
-              <span class="text-lg underline-active">Atividades</span>
+              <span class="text-lg">Atividades</span>
             </span>
           </button>
         </a>
@@ -104,7 +90,7 @@
                   style="display: none"
                 ></em>
               </i>
-              <span class="text-lg">Notificações</span>
+              <span class="text-lg underline-active">Notificações</span>
             </span>
           </button></a
         >
@@ -153,128 +139,62 @@
 
     <!-- Conteúdo principal -->
     <div class="md:ml-80 p-10 hidden md:block">
-      <!-- Seção de Atividades -->
-      <section class="mt-10 bg-[#1e1e2e] p-6 rounded-xl">
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-xl font-semibold">Atividades</h2>
-          <button
-            onclick="location.href='criarAtividades.html'"
-            class="text-white p-2 rounded-full bg-blue-500 hover:bg-blue-600"
-          >
-            <i class="fas fa-plus text-xl"></i>
-          </button>
-        </div>
+      <header class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-semibold">Notificações</h1>
+      </header>
 
-        <!-- Filtros de Atividades -->
-        <div class="flex justify-around mb-6 space-x-4">
-          <button
-            class="filtro-atividade flex items-center bg-gray-700 px-4 py-2 rounded-lg hover:bg-blue-700"
-            data-status="todas"
-          >
-            <i class="fas fa-tasks mr-2"></i> <span>Todas</span>
-          </button>
-          <button
-            class="filtro-atividade flex items-center bg-gray-700 px-4 py-2 rounded-lg hover:bg-blue-700"
-            data-status="Agendada"
-          >
-            <i class="fas fa-calendar-check mr-2"></i> <span>Agendada</span>
-          </button>
-          <button
-            class="filtro-atividade flex items-center bg-gray-700 px-4 py-2 rounded-lg hover:bg-blue-700"
-            data-status="Concluída"
-          >
-            <i class="fas fa-check-circle mr-2"></i> <span>Concluída</span>
-          </button>
-          <button
-            class="filtro-atividade flex items-center bg-gray-700 px-4 py-2 rounded-lg hover:bg-blue-700"
-            data-status="Cancelada"
-          >
-            <i class="fas fa-times-circle mr-2"></i> <span>Cancelada</span>
-          </button>
-        </div>
+      <!-- Filtros de Notificação -->
+      <div class="flex space-x-4 mb-6">
+        <button
+          data-status="todas"
+          id="btn-todas"
+          class="filtro-notificacao bg-blue-800 text-white py-2 px-4 rounded-lg focus:outline-none"
+        >
+          Todas
+        </button>
+        <button
+          data-status="false"
+          id="btn-naoLidas"
+          class="filtro-notificacao bg-gray-800 text-white py-2 px-4 rounded-lg focus:outline-none"
+        >
+          Não Lidas
+        </button>
+        <button
+          data-status="true"
+          id="btn-lidas"
+          class="filtro-notificacao bg-gray-800 text-white py-2 px-4 rounded-lg focus:outline-none"
+        >
+          Lidas
+        </button>
+      </div>
 
-        <!-- Contêiner de Atividades Programadas -->
-        <div
-          id="atividades-container"
-          class="bg-[#1e1e2e] p-5 rounded-xl"
-        ></div>
+      <!-- Lista de Notificações -->
+      <section class="bg-[#1e1e2e] p-6 rounded-xl">
+        <h2 class="text-xl font-semibold mb-6">Notificações Recentes</h2>
+        <div id="notifications-container" class="space-y-4">
+          <!-- Exemplo de Notificação Não Lida
+          <div class="flex justify-between items-center bg-gray-700 p-4 rounded-lg border-l-4 border-red-500">
+            <div>
+              <p class="font-semibold">Nova Atividade Agendada</p>
+              <p class="text-sm">Você tem uma nova atividade agendada para amanhã.</p>
+            </div>
+            <button class="text-blue-400" onclick="markAsRead(this)">Marcar como Lida</button>
+          </div> -->
+
+          <!-- Exemplo de Notificação Lida
+          <div class="flex justify-between items-center bg-gray-700 p-4 rounded-lg">
+            <div>
+              <p class="font-semibold">Atividade Concluída</p>
+              <p class="text-sm">A atividade "Relatório Mensal" foi concluída.</p>
+            </div>
+            <button class="text-blue-400" onclick="markAsRead(this)">Marcar como Não Lida</button>
+          </div> -->
+        </div>
       </section>
     </div>
 
-    <!-- Modal de Edição -->
-    <div
-      id="editModal"
-      class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 hidden"
-    >
-      <div class="bg-gray-900 p-6 rounded-lg w-11/12 md:w-1/3">
-        <input type="hidden" id="atividadeId" />
-        <h2 class="text-xl font-semibold mb-4">Editar Atividade</h2>
-        <div>
-          <label for="editTitulo" class="block text-sm font-medium text-white"
-            >Título</label
-          >
-          <input
-            type="text"
-            id="editTitulo"
-            class="mt-1 block w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600"
-          />
-        </div>
-        <div class="mt-4">
-          <label
-            for="editDescricao"
-            class="block text-sm font-medium text-white"
-            >Descrição</label
-          >
-          <textarea
-            id="editDescricao"
-            class="mt-1 block w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600"
-          ></textarea>
-        </div>
-        <div class="mt-4">
-          <label for="editStatus" class="block text-sm font-medium text-white"
-            >Status</label
-          >
-          <select
-            id="editStatus"
-            class="mt-1 block w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600"
-          >
-            <option value="Agendada">Agendada</option>
-            <option value="Concluída">Concluída</option>
-            <option value="Cancelada">Cancelada</option>
-          </select>
-        </div>
-        <div class="mt-4">
-          <label for="editData" class="block text-sm font-medium text-white"
-            >Data (dd-mm-yyyy)</label
-          >
-          <input
-            type="text"
-            id="editData"
-            placeholder="dd-mm-yyyy"
-            class="mt-1 block w-full p-2 rounded-md bg-gray-800 text-white border border-gray-600"
-            maxlength="10"
-          />
-        </div>
-        <div class="mt-6 flex justify-end">
-          <button
-            id="saveEditButton"
-            class="bg-blue-500 text-white px-4 py-2 rounded-lg"
-          >
-            Salvar
-          </button>
-          <button
-            id="closeEditModalButton"
-            class="ml-2 bg-red-500 text-white px-4 py-2 rounded-lg"
-            onclick="closeEditModal()"
-          >
-            Cancelar
-          </button>
-        </div>
-      </div>
-    </div>
-
     <!-- Scripts -->
+    <script src="assets/js/notificacoes.js"></script>
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/atividades.js"></script>
   </body>
 </html>

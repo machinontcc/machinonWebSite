@@ -40,6 +40,8 @@ async function handleSubmit(event) {
                             userId: user.uid
                         })
 
+                        await createNotification("Novo Funcionário Cadastrado", `O funcionário ${data.nome} foi adicionado com sucesso.`, empresa.id);
+
                         // Alerta personalizado usando SweetAlert
                         Swal.fire({
                             title: 'Cadastro realizado!',
