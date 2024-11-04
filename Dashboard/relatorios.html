@@ -1,111 +1,205 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Relatórios - Dashboard Machinon</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <link
+      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <!-- jsPDF para PDF -->
     <script src="../config/configFirebase.js"></script>
 
     <link rel="stylesheet" href="assets/css/styles.css" />
-</head>
+  </head>
 
-<body class="font-sans bg-[#050512] text-white">
+  <body class="font-sans bg-[#050512] text-white">
+    <!-- Sidebar fixa e estilizada (escondida em dispositivos móveis) -->
+    <div
+      class="hidden md:flex md:flex-col md:fixed top-6 bottom-6 left-6 w-64 bg-gray-800 text-white rounded-xl shadow-2xl p-6 space-y-6"
+    >
+      <!-- Logo da Empresa -->
+      <div class="flex items-center space-x-3">
+        <img
+          src="../assets/img/logo_white.png"
+          alt="Logo da Empresa"
+          class="w-full h-16 rounded-full"
+        />
+      </div>
 
-    <!-- Sidebar fixa e estilizada -->
-    <div class="hidden md:flex md:flex-col md:fixed top-6 bottom-6 left-6 w-64 bg-gray-800 text-white rounded-xl shadow-2xl p-6 space-y-6">
-        <div class="flex items-center space-x-3">
-            <img src="../assets/img/logo_white.png" alt="Logo da Empresa" class="w-full h-16 rounded-full" />
-        </div>
+      <!-- Links de Navegação com Ícones Font Awesome -->
+      <nav class="flex flex-col space-y-4 poppins-regular">
+        <a href="dashboard.html">
+          <button
+            class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+          >
+            <span
+              class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+            >
+              <i class="uil uil-estate text-2xl"></i>
+              <span class="text-lg">Home</span>
+            </span>
+          </button>
+        </a>
 
-        <nav class="flex flex-col space-y-4 poppins-regular">
-            <a href="dashboard.html">
-                <button class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all">
-                    <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                        <i class="uil uil-estate text-2xl"></i>
-                        <span class="text-lg">Home</span>
-                    </span>
-                </button>
-            </a>
+        <a href="atividades.html">
+          <button
+            class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+          >
+            <span
+              class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+            >
+              <i class="uil uil-list-ul text-2xl"></i>
+              <span class="text-lg">Atividades</span>
+            </span>
+          </button>
+        </a>
 
-            <a href="atividades.html">
-                <button class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all">
-                    <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                        <i class="uil uil-list-ul text-2xl"></i>
-                        <span class="text-lg">Atividades</span>
-                    </span>
-                </button>
-            </a>
+        <a href="funcionarios.html">
+          <button
+            class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+          >
+            <span
+              class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+            >
+              <i class="uil uil-users-alt text-2xl"></i>
+              <span class="text-lg">Funcionários</span>
+            </span>
+          </button>
+        </a>
 
-            <a href="funcionarios.html">
-                <button class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all">
-                    <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                        <i class="uil uil-users-alt text-2xl"></i>
-                        <span class="text-lg">Funcionários</span>
-                    </span>
-                </button>
-            </a>
+        <a href="notificacoes.html">
+          <button
+            class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all relative"
+          >
+            <span
+              class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+            >
+              <i class="uil uil-bell text-2xl relative">
+                <em
+                  class="absolute top-[2px] right-[0px] w-2.5 h-2.5 bg-red-500 border border-white rounded-full"
+                  style="display: none"
+                ></em>
+              </i>
+              <span class="text-lg">Notificações</span>
+            </span>
+          </button></a
+        >
 
-            <a href="notificacoes.html">
-                <button class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all">
-                    <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                        <i class="uil uil-bell text-2xl"></i>
-                        <span class="text-lg">Notificações</span>
-                    </span>
-                </button>
-            </a>
+        <a href="relatorios.html">
+          <!-- Link adicionado para a página de relatórios -->
+          <button
+            class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+          >
+            <span
+              class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+            >
+              <i class="uil uil-file-info-alt text-2xl"></i>
+              <!-- Ícone para Relatórios -->
+              <span class="text-lg">Relatórios</span>
+            </span>
+          </button>
+        </a>
 
-            <a href="relatorios.html">
-                <button class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all">
-                    <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                        <i class="uil uil-file-info-alt text-2xl"></i>
-                        <span class="text-lg underline-active">Relatórios</span>
-                    </span>
-                </button>
-            </a>
+        <a href="perfil.html">
+          <button
+            class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+          >
+            <span
+              class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+            >
+              <i class="uil uil-user-circle text-2xl"></i>
+              <span class="text-lg underline-active">Perfil</span>
+            </span>
+          </button>
+        </a>
 
-            <a href="perfil.html">
-                <button class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all">
-                    <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                        <i class="uil uil-user-circle text-2xl"></i>
-                        <span class="text-lg">Perfil</span>
-                    </span>
-                </button>
-            </a>
-
-            <button class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all mt-auto" onclick="handleLogout()">
-                <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                    <i class="uil uil-signout text-2xl"></i>
-                    <span class="text-lg">Sair</span>
-                </span>
-            </button>
-        </nav>
+        <button
+          class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all mt-auto"
+          onclick="handleLogout()"
+        >
+          <span
+            class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+          >
+            <i class="uil uil-signout text-2xl"></i>
+            <span class="text-lg">Sair</span>
+          </span>
+        </button>
+      </nav>
     </div>
 
     <!-- Conteúdo principal -->
     <div class="md:ml-80 p-10 hidden md:block">
-        <header class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-semibold">Relatórios Disponíveis</h1>
-        </header>
+      <header class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-semibold">Relatórios Disponíveis</h1>
+      </header>
 
-        <!-- Botão para gerar relatório -->
-        <button class="mb-4 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 hidden px-4 rounded" id="btn-gerarRelatorio" onclick="gerarRelatorio()">
+      <div class="flex items-center space-x-6">
+        <!-- Seletor de Mês para Relatório -->  
+        <div class="mb-4 flex items-center space-x-3">
+          <label for="select-mes" class="block mb-2 text-lg font-semibold"
+            >Escolha o Mês:</label
+          >
+          <select id="select-mes" class="bg-gray-700 text-white rounded p-2">
+            <option value="0">Janeiro</option>
+            <option value="1">Fevereiro</option>
+            <option value="2">Março</option>
+            <option value="3">Abril</option>
+            <option value="4">Maio</option>
+            <option value="5">Junho</option>
+            <option value="6">Julho</option>
+            <option value="7">Agosto</option>
+            <option value="8">Setembro</option>
+            <option value="9">Outubro</option>
+            <option value="10">Novembro</option>
+            <option value="11">Dezembro</option>
+          </select>
+        </div>
+
+        <!-- Botões para gerar e baixar relatório -->
+        <div class="mb-4 flex gap-4">
+          <button
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            id="btn-gerarRelatorio"
+            onclick="gerarRelatorio()"
+          >
             Gerar Relatório
-        </button>
+          </button>
+          <button
+            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            id="btn-baixarPDF"
+            onclick="baixarPDF()"
+            disabled
+          >
+            Baixar PDF
+          </button>
+        </div>
+      </div>
 
-        <!-- Lista de Relatórios -->
-        <section class="bg-[#1e1e2e] p-6 rounded-xl">
-            <h2 class="text-xl font-semibold mb-6">Relatórios Recentes</h2>
-            <div id="relatorios-container" class="space-y-4">
-                <!-- Os relatórios serão adicionados aqui via JavaScript -->
-            </div>
-        </section>
+      <!-- Div para exibição do Relatório Gerado em Cards -->
+      <section
+        id="relatorio-container"
+        class="bg-[#1e1e2e] p-6 rounded-xl hidden"
+      >
+        <h2 class="text-xl font-semibold mb-6">Relatório Gerado</h2>
+        <div
+          id="relatorio-dados"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <!-- Conteúdo do relatório será injetado aqui via JavaScript em formato de cards -->
+        </div>
+      </section>
     </div>
 
     <!-- Scripts -->
@@ -113,10 +207,87 @@
     <script src="assets/js/main.js"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const userData = JSON.parse(localStorage.getItem('userData'));
-            userData.isAdmin ? document.getElementById('btn-gerarRelatorio').classList.remove('hidden') : '';
-        })
+      // Função para gerar o relatório e exibir em cards
+      async function gerarRelatorio() {
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        const empresaId = userData.empresaId;
+        const mesSelecionado = document.getElementById("select-mes").value;
+        const hoje = new Date();
+        const ano = hoje.getFullYear();
+
+        // Definindo a data de início e fim do mês selecionado
+        const startDate = new Date(ano, mesSelecionado, 1);
+        const endDate = new Date(ano, parseInt(mesSelecionado) + 1, 0); // último dia do mês
+
+        // Convertendo datas para Timestamp do Firebase
+        const startTimestamp = firebase.firestore.Timestamp.fromDate(startDate);
+        const endTimestamp = firebase.firestore.Timestamp.fromDate(endDate);
+
+        const relatorio = await gerarRelatorioMensal(
+          empresaId,
+          startTimestamp,
+          endTimestamp
+        );
+
+        // Atualiza o HTML usando os dados retornados
+        document.getElementById("relatorio-dados").innerHTML = `
+    <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+        <h3 class="text-lg font-bold">Funcionários Adicionados</h3>
+        <p class="text-3xl font-semibold">${
+          relatorio.funcionariosAdicionados
+        }</p>
+    </div>
+
+    <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+        <h3 class="text-lg font-bold">Atividades</h3>
+        <p><span class="text-2xl font-semibold">${
+          relatorio.atividadesTotal
+        }</span> Total</p>
+        <p class="text-xl text-yellow-500 font-semibold"><span class="text-2xl font-semibold text-yellow-500">${
+          relatorio.atividadesAgendadas
+        }</span> Agendadas</p>
+        <p class="text-xl text-green-500 font-semibold"><span class="text-2xl font-semibold text-green-500">${
+          relatorio.atividadesConcluidas
+        }</span> Concluídas</p>
+         <p class="text-xl text-red-500 font-semibold"><span class="text-2xl font-semibold text-red-500">${
+           relatorio.atividadesCanceladas
+         } </span> Canceladas</p>
+    </div>
+
+    ${Object.entries(relatorio.leiturasSensores)
+      .map(
+        ([sensorType, stats]) => `
+        <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+            <h3 class="text-lg font-bold">${sensorType}</h3>
+            <p>Média: <span class="font-semibold">${stats.media}</span></p>
+            <p>Mínimo: <span class="font-semibold">${stats.minimo}</span></p>
+            <p>Máximo: <span class="font-semibold">${stats.maximo}</span></p>
+            <p>Total de Leituras: <span class="font-semibold">${stats.totalLeituras}</span></p>
+        </div>
+    `
+      )
+      .join("")}
+`;
+
+        document
+          .getElementById("relatorio-container")
+          .classList.remove("hidden");
+        document.getElementById("btn-baixarPDF").disabled = false; // Habilita o botão de PDF
+      }
+
+      // Função para baixar o relatório como PDF
+      function baixarPDF() {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
+
+        // Captura o conteúdo do relatório para o PDF
+        const relatorioContent =
+          document.getElementById("relatorio-dados").innerText;
+        pdf.text(relatorioContent, 10, 10);
+
+        // Salva o PDF
+        pdf.save("relatorio.pdf");
+      }
     </script>
-</body>
+  </body>
 </html>

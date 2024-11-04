@@ -1,81 +1,53 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatórios de Sensores e Atividades</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <title>Adicionar Sensores e Leituras</title>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+    <script src="../config/configFirebase.js"></script> <!-- Certifique-se de que esse caminho está correto -->
 </head>
 <body>
-    <div class="container">
-        <h1>Relatório de Sensores e Atividades</h1>
-        <button id="download-pdf" class="btn btn-primary">Baixar PDF</button>
-        <div id="relatorio-container">
-            <div id="dados-sensores">
-                <h2>Dados dos Sensores</h2>
-                <p id="sensor-activity">Atividades dos Sensores: 0</p>
-                <p id="sensor-alerts">Alertas de Sensores: 0</p>
-            </div>
 
-            <div id="dados-funcionarios">
-                <h2>Dados dos Funcionários</h2>
-                <p id="funcionarios-adicionados">Funcionários Adicionados: 0</p>
-            </div>
+    <button onclick="adicionarSensoresComLeituras()">Adicionar Sensores e Leituras</button>
 
-            <div id="dados-atividades">
-                <h2>Dados das Atividades</h2>
-                <p id="atividades-concluidas">Atividades Concluídas: 0</p>
-                <p id="atividades-canceladas">Atividades Canceladas: 0</p>
-                <p id="atividades-agendadas">Atividades Agendadas: 0</p>
-                <p id="percentual-completado">Percentual Completado: 0%</p>
-            </div>
-        </div>
-    </div>
     <script>
-        async function loadReportData() {
-            const reportData = {
-                sensores: {
-                    atividades: 120,
-                    alertas: 5,
-                },
-                funcionarios: {
-                    adicionados: 10,
-                },
-                atividades: {
-                    concluídas: 80,
-                    canceladas: 5,
-                    agendadas: 15,
+        async function adicionarSensoresComLeituras() {
+            const empresaId = "3TgnwzGCc678gztS4Wlj";
+            const sensores = [
+                { tipo: "Temperatura", localizacao: "Armazém 1", status: "Ativo", unidade: "°C", ultimaLeitura: 22 },
+                { tipo: "Umidade", localizacao: "Armazém 2", status: "Ativo", unidade: "%", ultimaLeitura: 50 },
+                { tipo: "Pressão", localizacao: "Sala de Controle", status: "Inativo", unidade: "hPa", ultimaLeitura: 1015 },
+                { tipo: "Nível", localizacao: "Tanque 3", status: "Ativo", unidade: "Litros", ultimaLeitura: 75 }
+            ];
+
+            for (const sensor of sensores) {
+                // Adiciona sensor na coleção "sensores" da empresa
+                const sensorRef = await db.collection(`empresas/${empresaId}/sensores`).add({
+                    tipo: sensor.tipo,
+                    localizacao: sensor.localizacao,
+                    status: sensor.status,
+                    ultimaLeitura: sensor.ultimaLeitura,
+                    unidade: sensor.unidade
+                });
+
+                const leiturasRef = db.collection(`empresas/${empresaId}/sensores/${sensorRef.id}/leituras`);
+                
+                // Adiciona leituras fictícias para cada sensor
+                for (let i = 0; i < 10; i++) {
+                    const valorAleatorio = Math.random() * (sensor.ultimaLeitura + 10 - (sensor.ultimaLeitura - 10)) + (sensor.ultimaLeitura - 10);
+                    const timestampAleatorio = new Date(Date.now() - Math.floor(Math.random() * 30 * 24 * 60 * 60 * 1000));
+
+                    await leiturasRef.add({
+                        valor: valorAleatorio,
+                        timestamp: firebase.firestore.Timestamp.fromDate(timestampAleatorio)
+                    });
                 }
-            };
+            }
 
-            document.getElementById('sensor-activity').innerText = `Atividades dos Sensores: ${reportData.sensores.atividades}`;
-            document.getElementById('sensor-alerts').innerText = `Alertas de Sensores: ${reportData.sensores.alertas}`;
-            document.getElementById('funcionarios-adicionados').innerText = `Funcionários Adicionados: ${reportData.funcionarios.adicionados}`;
-            document.getElementById('atividades-concluidas').innerText = `Atividades Concluídas: ${reportData.atividades.concluídas}`;
-            document.getElementById('atividades-canceladas').innerText = `Atividades Canceladas: ${reportData.atividades.canceladas}`;
-            document.getElementById('atividades-agendadas').innerText = `Atividades Agendadas: ${reportData.atividades.agendadas}`;
-
-            const totalAtividades = reportData.atividades.concluídas + reportData.atividades.canceladas + reportData.atividades.agendadas;
-            const percentualCompletado = totalAtividades ? (reportData.atividades.concluídas / totalAtividades * 100).toFixed(2) : 0;
-            document.getElementById('percentual-completado').innerText = `Percentual Completado: ${percentualCompletado}%`;
+            alert("Sensores e leituras adicionados com sucesso!");
         }
-
-        document.getElementById('download-pdf').addEventListener('click', () => {
-            const element = document.getElementById('relatorio-container');
-
-            const opt = {
-                margin:       1,
-                filename:     'relatorio_sensores_atividades.pdf',
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-            };
-
-            html2pdf().from(element).set(opt).save();
-        });
-
-        document.addEventListener('DOMContentLoaded', loadReportData);
     </script>
 </body>
 </html>
