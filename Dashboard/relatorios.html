@@ -107,7 +107,7 @@
             >
               <i class="uil uil-file-info-alt text-2xl"></i>
               <!-- Ícone para Relatórios -->
-              <span class="text-lg">Relatórios</span>
+              <span class="text-lg underline-active">Relatórios</span>
             </span>
           </button>
         </a>
@@ -120,7 +120,7 @@
               class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
             >
               <i class="uil uil-user-circle text-2xl"></i>
-              <span class="text-lg underline-active">Perfil</span>
+              <span class="text-lg">Perfil</span>
             </span>
           </button>
         </a>
@@ -146,7 +146,7 @@
       </header>
 
       <div class="flex items-center space-x-6">
-        <!-- Seletor de Mês para Relatório -->  
+        <!-- Seletor de Mês para Relatório -->
         <div class="mb-4 flex items-center space-x-3">
           <label for="select-mes" class="block mb-2 text-lg font-semibold"
             >Escolha o Mês:</label
@@ -215,6 +215,9 @@
         const hoje = new Date();
         const ano = hoje.getFullYear();
 
+        // Atualiza o título com o mês selecionado
+        atualizarTituloRelatorio(mesSelecionado);
+
         // Definindo a data de início e fim do mês selecionado
         const startDate = new Date(ano, mesSelecionado, 1);
         const endDate = new Date(ano, parseInt(mesSelecionado) + 1, 0); // último dia do mês
@@ -231,14 +234,13 @@
 
         // Atualiza o HTML usando os dados retornados
         document.getElementById("relatorio-dados").innerHTML = `
-    <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+      <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
         <h3 class="text-lg font-bold">Funcionários Adicionados</h3>
         <p class="text-3xl font-semibold">${
           relatorio.funcionariosAdicionados
         }</p>
-    </div>
-
-    <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
+      </div>
+      <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
         <h3 class="text-lg font-bold">Atividades</h3>
         <p><span class="text-2xl font-semibold">${
           relatorio.atividadesTotal
@@ -249,25 +251,24 @@
         <p class="text-xl text-green-500 font-semibold"><span class="text-2xl font-semibold text-green-500">${
           relatorio.atividadesConcluidas
         }</span> Concluídas</p>
-         <p class="text-xl text-red-500 font-semibold"><span class="text-2xl font-semibold text-red-500">${
-           relatorio.atividadesCanceladas
-         } </span> Canceladas</p>
-    </div>
-
-    ${Object.entries(relatorio.leiturasSensores)
-      .map(
-        ([sensorType, stats]) => `
+        <p class="text-xl text-red-500 font-semibold"><span class="text-2xl font-semibold text-red-500">${
+          relatorio.atividadesCanceladas
+        }</span> Canceladas</p>
+      </div>
+      ${Object.entries(relatorio.leiturasSensores)
+        .map(
+          ([sensorType, stats]) => `
         <div class="bg-gray-700 p-4 rounded-lg shadow-lg">
-            <h3 class="text-lg font-bold">${sensorType}</h3>
-            <p>Média: <span class="font-semibold">${stats.media}</span></p>
-            <p>Mínimo: <span class="font-semibold">${stats.minimo}</span></p>
-            <p>Máximo: <span class="font-semibold">${stats.maximo}</span></p>
-            <p>Total de Leituras: <span class="font-semibold">${stats.totalLeituras}</span></p>
+          <h3 class="text-lg font-bold">${sensorType}</h3>
+          <p>Média: <span class="font-semibold">${Number(stats.media || 0).toFixed(2)}</span></p>
+          <p>Mínimo: <span class="font-semibold">${Number(stats.minimo || 0).toFixed(2)}</span></p>
+          <p>Máximo: <span class="font-semibold">${Number(stats.maximo || 0).toFixed(2)}</span></p>
+          <p>Total de Leituras: <span class="font-semibold">${stats.totalLeituras}</span></p>
         </div>
-    `
-      )
-      .join("")}
-`;
+      `
+        )
+        .join("")}
+    `;
 
         document
           .getElementById("relatorio-container")
@@ -275,18 +276,39 @@
         document.getElementById("btn-baixarPDF").disabled = false; // Habilita o botão de PDF
       }
 
-      // Função para baixar o relatório como PDF
-      function baixarPDF() {
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF();
+      document.addEventListener("DOMContentLoaded", () => {
+        // Pega o mês atual e define no select
+        const hoje = new Date();
+        const mesAtual = hoje.getMonth(); // Índice do mês atual (0 a 11)
 
-        // Captura o conteúdo do relatório para o PDF
-        const relatorioContent =
-          document.getElementById("relatorio-dados").innerText;
-        pdf.text(relatorioContent, 10, 10);
+        // Define o select do mês com o mês atual
+        const selectMes = document.getElementById("select-mes");
+        selectMes.value = mesAtual;
 
-        // Salva o PDF
-        pdf.save("relatorio.pdf");
+        // Chama a função para gerar o relatório automaticamente
+        gerarRelatorio();
+
+        // Atualiza o título do relatório
+        atualizarTituloRelatorio(mesAtual);
+      });
+
+      function atualizarTituloRelatorio(mes) {
+        const meses = [
+          "Janeiro",
+          "Fevereiro",
+          "Março",
+          "Abril",
+          "Maio",
+          "Junho",
+          "Julho",
+          "Agosto",
+          "Setembro",
+          "Outubro",
+          "Novembro",
+          "Dezembro",
+        ];
+        const titulo = document.querySelector("header h1");
+        titulo.textContent = `Relatório Mensal de ${meses[mes]}`;
       }
     </script>
   </body>

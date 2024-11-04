@@ -9,10 +9,15 @@ async function loadNotifications(status = null) {
     try {
         let query = notificacoesRef;
 
-        if (status !== null) { // Verifica se o status não é nulo
-            query = notificacoesRef.where('isRead', '==', status);  
+        // Filtra por status de leitura se especificado
+        if (status !== null) { 
+            query = query.where('isRead', '==', status);
         }
 
+        // Ordena por data decrescente (da mais recente para a mais antiga)
+        query = query.orderBy('createdAt', 'desc');
+
+        // Obtém os resultados da consulta
         const snapshot = await query.get();
 
         snapshot.forEach(doc => {
