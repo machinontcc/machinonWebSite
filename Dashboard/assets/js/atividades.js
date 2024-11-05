@@ -6,7 +6,7 @@ async function fetchAtividades(status = null) { // Adicionando um parâmetro com
     const userDataString = localStorage.getItem('userData');
     const userData = JSON.parse(userDataString);
 
-    const atividadesRef = firebase.firestore().collection(`empresas/${userData.empresaId}/atividades`);
+    const atividadesRef = db.collection(`empresas/${userData.empresaId}/atividades`);
 
     try {
         let query = atividadesRef; // Começa com a referência inicial
@@ -59,7 +59,7 @@ function openEditModal(atividadeId) {
     const userDataString = localStorage.getItem('userData');
     const userData = JSON.parse(userDataString);
     
-    const atividadeRef = firebase.firestore().collection(`empresas/${userData.empresaId}/atividades`).doc(atividadeId);
+    const atividadeRef = db.collection(`empresas/${userData.empresaId}/atividades`).doc(atividadeId);
     
     atividadeRef.get().then(doc => {
         if (doc.exists) {
@@ -96,7 +96,7 @@ document.getElementById('saveEditButton').addEventListener('click', async () => 
     const userDataString = localStorage.getItem('userData');
     const userData = JSON.parse(userDataString);
 
-    const atividadeRef = firebase.firestore().collection(`empresas/${userData.empresaId}/atividades`).doc(atividadeId);
+    const atividadeRef = db.collection(`empresas/${userData.empresaId}/atividades`).doc(atividadeId);
 
     try {
         await atividadeRef.update({

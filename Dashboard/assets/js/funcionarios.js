@@ -8,7 +8,7 @@ const userData = JSON.parse(localStorage.getItem("userData"));
 
           // Pega o código da empresa do Firestore
           const empresaId = userData.empresaId;
-          const empresaDoc = await firebase.firestore().collection("empresas").doc(empresaId).get();
+          const empresaDoc = await db.collection("empresas").doc(empresaId).get();
 
           if (empresaDoc.exists) {
             const codigoConvite = empresaDoc.data().codigoConvite || "Não disponível";
@@ -115,8 +115,7 @@ const userData = JSON.parse(localStorage.getItem("userData"));
             .update({ cargo, nome });
 
           // Atualiza o campo `status` na coleção `funcionarios`
-          await firebase
-            .firestore()
+          await db
             .collection(`empresas/${userData.empresaId}/funcionarios`)
             .doc(funcionarioId)
             .update({ status });
