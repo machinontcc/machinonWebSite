@@ -218,6 +218,30 @@
     <script src="assets/js/main.js"></script>
 
     <script>
+      async function baixarPDF() {
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        const empresaId = userData.empresaId;
+        const mesSelecionado = document.getElementById("select-mes").value;
+        const hoje = new Date();
+        const ano = hoje.getFullYear();
+
+        // Definindo a data de início e fim do mês selecionado
+        const startDate = new Date(ano, mesSelecionado, 1);
+        const endDate = new Date(ano, parseInt(mesSelecionado) + 1, 0); // último dia do mês
+
+        // Convertendo datas para Timestamp do Firebase
+        const startTimestamp = firebase.firestore.Timestamp.fromDate(startDate);
+        const endTimestamp = firebase.firestore.Timestamp.fromDate(endDate);
+
+        const relatorio = await gerarRelatorioMensal(
+          empresaId,
+          startTimestamp,
+          endTimestamp
+        );
+
+        gerarPDF(relatorio, startTimestamp, endTimestamp);
+      }
+      
       // Função para gerar o relatório e exibir em cards
       async function gerarRelatorio() {
         const userData = JSON.parse(localStorage.getItem("userData"));

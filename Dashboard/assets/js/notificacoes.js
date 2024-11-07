@@ -14,8 +14,9 @@ async function loadNotifications(status = null) {
             query = query.where('isRead', '==', status);
         }
 
-        // Ordena por data decrescente (da mais recente para a mais antiga)
-        query = query.orderBy('createdAt', 'desc');
+        // Ordena primeiro por 'isRead' (não lidas primeiro) e depois por 'createdAt' (decrescente)
+        query = query.orderBy('isRead')          // Ordena por 'isRead', colocando 'false' (não lidas) primeiro
+                     .orderBy('createdAt', 'desc');  // Ordena por 'createdAt', da mais recente para a mais antiga
 
         // Obtém os resultados da consulta
         const snapshot = await query.get();
@@ -28,6 +29,7 @@ async function loadNotifications(status = null) {
         console.error("Erro ao buscar notificacoes: ", error);
     }
 }
+
 
 function convertFirebaseTimestamp(timestamp) {
     return new Date(timestamp.seconds * 1000 + Math.floor(timestamp.nanoseconds / 1000000));

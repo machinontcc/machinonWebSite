@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Scripts para banco de dados -->
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+    <script src="config/configFirebase.js"></script>
+</head>
+<body>
+    <button onclick="addSensorsAndReadings('3TgnwzGCc678gztS4Wlj')">ADD</button>
+
+    <script>
+        // Função para gerar os sensores e as leituras
+async function addSensorsAndReadings(empresaId) {
+    const sensoresRef = db.collection(`empresas/${empresaId}/sensores`);
+    
+    const newSensors = [
+        {
+            tipo: "Temperatura",
+            localizacao: "Sala de Server",
+            status: "Ativo",
+            unidade: "°C",
+            leituras: [
+                { valor: 22, timestamp: new Date('2024-01-01T10:00:00Z') },
+                { valor: 23, timestamp: new Date('2024-01-02T10:00:00Z') },
+                { valor: 21, timestamp: new Date('2024-01-05T10:00:00Z') },
+                { valor: 20, timestamp: new Date('2024-01-10T10:00:00Z') },
+                { valor: 22, timestamp: new Date('2024-01-15T10:00:00Z') },
+                { valor: 24, timestamp: new Date('2024-01-20T10:00:00Z') },
+                { valor: 23, timestamp: new Date('2024-01-25T10:00:00Z') },
+                { valor: 21, timestamp: new Date('2024-02-01T10:00:00Z') },
+                { valor: 19, timestamp: new Date('2024-02-10T10:00:00Z') },
+                { valor: 18, timestamp: new Date('2024-02-15T10:00:00Z') }
+            ]
+        },
+        {
+            tipo: "Umidade",
+            localizacao: "Armazém de Produtos",
+            status: "Ativo",
+            unidade: "%",
+            leituras: [
+                { valor: 60, timestamp: new Date('2024-01-01T11:00:00Z') },
+                { valor: 63, timestamp: new Date('2024-01-02T11:00:00Z') },
+                { valor: 58, timestamp: new Date('2024-01-05T11:00:00Z') },
+                { valor: 65, timestamp: new Date('2024-01-10T11:00:00Z') },
+                { valor: 62, timestamp: new Date('2024-01-15T11:00:00Z') },
+                { valor: 61, timestamp: new Date('2024-01-20T11:00:00Z') },
+                { valor: 64, timestamp: new Date('2024-01-25T11:00:00Z') },
+                { valor: 59, timestamp: new Date('2024-02-01T11:00:00Z') },
+                { valor: 60, timestamp: new Date('2024-02-10T11:00:00Z') },
+                { valor: 62, timestamp: new Date('2024-02-15T11:00:00Z') }
+            ]
+        },
+        {
+            tipo: "Pressão",
+            localizacao: "Sala de Produção",
+            status: "Ativo",
+            unidade: "Pa",
+            leituras: [
+                { valor: 101300, timestamp: new Date('2024-01-01T12:00:00Z') },
+                { valor: 101500, timestamp: new Date('2024-01-02T12:00:00Z') },
+                { valor: 101400, timestamp: new Date('2024-01-05T12:00:00Z') },
+                { valor: 101300, timestamp: new Date('2024-01-10T12:00:00Z') },
+                { valor: 101600, timestamp: new Date('2024-01-15T12:00:00Z') },
+                { valor: 101200, timestamp: new Date('2024-01-20T12:00:00Z') },
+                { valor: 101500, timestamp: new Date('2024-01-25T12:00:00Z') },
+                { valor: 101700, timestamp: new Date('2024-02-01T12:00:00Z') },
+                { valor: 101400, timestamp: new Date('2024-02-10T12:00:00Z') },
+                { valor: 101600, timestamp: new Date('2024-02-15T12:00:00Z') }
+            ]
+        },
+        {
+            tipo: "Vibração",
+            localizacao: "Equipamento 01",
+            status: "Ativo",
+            unidade: "m/s²",
+            leituras: [
+                { valor: 0.5, timestamp: new Date('2024-01-01T13:00:00Z') },
+                { valor: 0.6, timestamp: new Date('2024-01-02T13:00:00Z') },
+                { valor: 0.7, timestamp: new Date('2024-01-05T13:00:00Z') },
+                { valor: 0.4, timestamp: new Date('2024-01-10T13:00:00Z') },
+                { valor: 0.5, timestamp: new Date('2024-01-15T13:00:00Z') },
+                { valor: 0.6, timestamp: new Date('2024-01-20T13:00:00Z') },
+                { valor: 0.8, timestamp: new Date('2024-01-25T13:00:00Z') },
+                { valor: 0.9, timestamp: new Date('2024-02-01T13:00:00Z') },
+                { valor: 0.7, timestamp: new Date('2024-02-10T13:00:00Z') },
+                { valor: 0.6, timestamp: new Date('2024-02-15T13:00:00Z') }
+            ]
+        }
+    ];
+
+    // Adicionando os sensores à coleção e as leituras à subcoleção
+    for (const sensor of newSensors) {
+        const sensorDocRef = await sensoresRef.add({
+            tipo: sensor.tipo,
+            localizacao: sensor.localizacao,
+            status: sensor.status,
+            unidade: sensor.unidade,
+            ultimaLeitura: sensor.leituras[sensor.leituras.length - 1].valor, // Agora o valor da última leitura
+        });
+
+        // Adicionando as leituras à subcoleção "leituras"
+        const leiturasRef = sensorDocRef.collection("leituras");
+        for (const leitura of sensor.leituras) {
+            await leiturasRef.add({
+                valor: leitura.valor,
+                timestamp: leitura.timestamp
+            });
+        }
+    }
+
+    console.log('Sensores e leituras adicionados com sucesso!');
+}
+    </script>
+</body>
+</html>
