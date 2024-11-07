@@ -131,6 +131,12 @@ async function gerarRelatorioMensal(empresaId, startDate, endDate) {
         };
     }
 
+    firebase.firestore().collection(`empresas/${empresaId}/logs`).add({
+        user: firebase.auth().currentUser.email,
+        action: `Gerou um relatório com a data inicial: ${startDate.toDate().toLocaleString()} e com data final de: ${endDate.toDate().toLocaleString()}`,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      
     console.log(report); // Exibir o objeto de relatório no console para verificação
     return report; // Retorna o objeto do relatório
 }

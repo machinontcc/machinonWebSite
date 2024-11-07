@@ -106,6 +106,11 @@ document.getElementById('saveEditButton').addEventListener('click', async () => 
             data: data // Salva no formato 'dd-mm-yyyy'
         });
         console.log("Atividade atualizada com sucesso!");
+        await firebase.firestore().collection(`empresas/${userData.empresaId}/logs`).add({
+            user: firebase.auth().currentUser.email,
+            action: `Editou a atividade: ${atividadeId} || ${titulo}`,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });   
         closeEditModal(); // Chama a função para fechar o modal
         fetchAtividades(); // Recarrega as atividades
     } catch (error) {
@@ -149,19 +154,38 @@ const getQueryParam = (param) => {
 
 // Inicializa as atividades ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {
-    const filter = getQueryParam('filter');
-    if (filter === 'Agendada') {
-        fetchAtividades(filter);
-    } else {
-        fetchAtividades();
-    }
+    fetchAtividades();
 });
 
 // Adiciona evento de click para os botões de filtro
 document.querySelectorAll(".filtro-atividade").forEach((button) => {
-    button.addEventListener("click", (e) => {
-        const status = e.target.getAttribute("data-status");
-        fetchAtividades((status === 'todas' ? null : status));
-    });
+        button.addEventListener("click", (e) => {
+            const btnTodas = document.getElementById('btn-todas');
+            const btnConcluidas = document.getElementById('btn-concluidas');
+            const btnAgendadas = document.getElementById('btn-agendadas');
+    
+            const status = e.target.getAttribute("data-status");
+    
+            // Remove a classe ativa de todos os botões e aplica a classe inativa
+            [btnTodas, btnConcluidas, btnAgendadas].forEach((btn) => {
+                btn.classList.remove('bg-blue-800');
+                btn.classList.add('bg-gray-800'); // Adiciona classe inativa a todos
+            });
+    
+            // Define a classe ativa e carrega as notificações com base no botão pressionado
+            if (status === 'todas') {
+                fetchAtividades(); // Carrega todas as notificações
+                btnTodas.classList.remove('bg-gray-800'); // Remove a classe inativa
+                btnTodas.classList.add('bg-blue-800'); // Adiciona a classe ativa
+            } else if (status === 'agendadas') {
+                fetchAtividades("Agendada"); // Carrega apenas notificações não lidas
+                btnAgendadas.classList.remove('bg-gray-800'); // Remove a classe inativa
+                btnAgendadas.classList.add('bg-blue-800'); // Adiciona a classe ativa
+            } else if (status === 'concluidas') {
+                fetchAtividades("Concluída"); // Carrega apenas notificações lidas
+                btnConcluidas.classList.remove('bg-gray-800'); // Remove a classe inativa
+                btnConcluidas.classList.add('bg-blue-800'); // Adiciona a classe ativa
+            }
+        });
 });
 

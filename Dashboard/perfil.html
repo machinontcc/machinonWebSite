@@ -104,10 +104,10 @@
                   style="display: none"
                 ></em>
               </i>
-              <span class="text-lg">Notificações</span>
+              <span class="text-lg ">Notificações</span>
             </span>
-          </button></a
-        >
+          </button>
+        </a>
 
         <a href="relatorios.html">
           <!-- Link adicionado para a página de relatórios -->
@@ -132,10 +132,21 @@
               class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
             >
               <i class="uil uil-user-circle text-2xl"></i>
-              <span class="text-lg underline-active">Perfil</span>
+              <span class="text-lg   underline-active">Perfil</span>
             </span>
           </button>
         </a>
+
+        <div id="adminLink" style="display: none;">
+          <a href="admin.html">
+            <button class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all">
+              <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
+                <i class="uil uil-lock-alt text-2xl"></i>
+                <span class="text-lg">Admin</span>
+              </span>
+            </button>
+          </a>
+        </div>
 
         <button
           class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all mt-auto"
@@ -276,14 +287,6 @@
             <input
               type="text"
               id="editUserPhone"
-              class="bg-gray-700 text-white rounded p-2 w-full"
-            />
-          </div>
-          <div class="mb-4">
-            <label class="text-gray-400" for="editUserCargo">Cargo:</label>
-            <input
-              type="text"
-              id="editUserCargo"
               class="bg-gray-700 text-white rounded p-2 w-full"
             />
           </div>

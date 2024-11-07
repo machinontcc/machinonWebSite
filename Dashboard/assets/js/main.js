@@ -34,6 +34,7 @@ async function isLogged() {
             window.location.href = '../pages/login.html';
         } else {
             localStorage.setItem('uidUser', user.uid);
+              
         }
     });
 }
@@ -88,28 +89,6 @@ async function fetchEmpresaInfo() {
     }
 }
 
-async function checkUnreadNotifications() {
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    if (!userData) return; // Verifica se há dados do usuário
-
-    const notificationsRef = db.collection(`empresas/${userData.empresaId}/notificacoes`);
-
-    try {
-        const snapshot = await notificationsRef.where('isRead', '==', false).get();
-
-        const hasUnreadNotifications = !snapshot.empty; // Verifica se há notificações não lidas
-
-        const notificationIndicator = document.querySelector('.uil-bell em'); // Seleciona o em da sidebar
-        if (hasUnreadNotifications) {
-            notificationIndicator.style.display = 'block'; // Mostra o indicador se houver notificações não lidas
-        } else {
-            notificationIndicator.style.display = 'none'; // Esconde o indicador se não houver
-        }
-    } catch (error) {
-        console.error("Erro ao verificar notificações: ", error);
-    }
-}
-
 async function createNotification(titulo, mensagem, empresaId) {
     const notification = {
         titulo: titulo,
@@ -126,8 +105,18 @@ async function createNotification(titulo, mensagem, empresaId) {
     }
 }
 
+function checkAdminAccess() {
+    // Obtém o userData do localStorage e analisa como JSON
+    const userData = JSON.parse(localStorage.getItem('userData'));
+
+    // Verifica se o usuário é admin e exibe o link se true
+    if (userData && userData.isAdmin) {
+      document.getElementById('adminLink').style.display = 'block';
+    }
+  }
+
 document.addEventListener('DOMContentLoaded', async () => {
     await isLogged();
     await fetchUserInfo();
-    await checkUnreadNotifications();
+    checkAdminAccess();
 });

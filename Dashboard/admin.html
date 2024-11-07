@@ -3,10 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Machinon</title>
-    <!-- Link do Tailwind CSS CDN -->
+    <title>Administração - Machinon</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Link para icons -->
     <link
       href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
       rel="stylesheet"
@@ -16,28 +14,15 @@
       rel="stylesheet"
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- Scripts para banco de dados -->
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
     <script src="../config/configFirebase.js"></script>
-
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
 
   <body class="font-sans bg-[#050512] text-white">
-    <!-- Aviso para dispositivos móveis -->
-    <div
-      class="fixed inset-0 flex items-center justify-center bg-red-100 text-red-800 text-lg p-4 md:hidden"
-    >
-      <p>
-        Para acessar este conteúdo em dispositivos móveis, faça o download do
-        nosso aplicativo!
-      </p>
-    </div>
-
-    <!-- Sidebar fixa e estilizada (escondida em dispositivos móveis) -->
+    <!-- Sidebar fixa -->
     <div
       class="hidden md:flex md:flex-col md:fixed top-6 bottom-6 left-6 w-64 bg-gray-800 text-white rounded-xl shadow-2xl p-6 space-y-6"
     >
@@ -60,7 +45,7 @@
               class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
             >
               <i class="uil uil-estate text-2xl"></i>
-              <span class="text-lg underline-active">Home</span>
+              <span class="text-lg">Home</span>
             </span>
           </button>
         </a>
@@ -142,7 +127,7 @@
             <button class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all">
               <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
                 <i class="uil uil-lock-alt text-2xl"></i>
-                <span class="text-lg">Admin</span>
+                <span class="text-lg  underline-active">Admin</span>
               </span>
             </button>
           </a>
@@ -162,63 +147,132 @@
       </nav>
     </div>
 
-    <!-- Conteúdo principal (escondido em dispositivos móveis) -->
+    <!-- Conteúdo Principal -->
     <div class="md:ml-80 p-10 hidden md:block">
       <!-- Cabeçalho -->
       <header class="bg-[#050512] p-6 flex justify-between items-center">
-        <div>
-          <h2 class="text-sm text-gray-500 font-bold" id="username">
-            Olá Usuário,
-          </h2>
-          <h1 class="text-2xl text-white">Bem-vindo de volta!</h1>
-        </div>
+        <h1 class="text-2xl text-white">Administração da Empresa</h1>
       </header>
 
-      <!-- Conteúdo Principal -->
-      <main class="p-6 space-y-10">
-        <!-- Cards de Sensores -->
-        <section class="p-5 rounded-xl">
-          <h2 class="text-white text-xl font-semibold mb-5" id="titleSensores">
-            Sensores
-          </h2>
-          <div
-            class="flex gap-4 overflow-x-auto scroll-container"
-            id="sensor-container"
-          >
-            <!-- Card Exemplo
-        <div class="bg-[#1e1e2e] rounded-xl p-4 w-60 min-w-[15rem] text-white shadow-md">
-          <h3 class="text-md">Sensor Temperatura</h3>
-          <h2 class="text-gray-300 text-lg poppins-medium">Valor Atual: 45°C</h2>
-          <p class="text-gray-300">Localizado em: Motor</p>
-        </div> -->
-          </div>
-        </section>
+      <!-- Seção Configurações da Empresa -->
+      <section class="p-6 space-y-10">
+        <h2 class="text-xl font-semibold">Configurações da Empresa</h2>
+        <div class="bg-gray-800 p-6 rounded-lg shadow-md text-white">
+          <p><strong>Nome:</strong> <span id="empresaNome"></span></p>
+          <p><strong>CNPJ:</strong> <span id="empresaCnpj"></span></p>
+          <p><strong>Endereço:</strong> <span id="empresaEndereco"></span></p>
+          <p><strong>Telefone:</strong> <span id="empresaTelefone"></span></p>
+          <p><strong>Email:</strong> <span id="empresaEmail"></span></p> <br>
+          <hr> <br>
+          <p><strong>Plano:</strong> <span id="empresaPlano"></span></p>
+          <p>
+            <strong>Data de Criação:</strong>
+            <span id="empresaDataCriacao"></span>
+          </p>
+          <p>
+            <strong>Data de Vencimento:</strong>
+            <span id="empresaDataVencimento"></span>
+          </p>
+          <p>
+            <strong>Status de Pagamento:</strong>
+            <span id="empresaStatusPagamento"></span>
+          </p>
 
-        <!-- Atividades Programadas -->
-        <section class="space-y-5">
-          <div class="flex justify-between items-center">
-            <h2 class="text-white text-xl font-semibold">
-              Atividades Programadas
-            </h2>
-          </div>
-          <div class="bg-[#1e1e2e] p-5 rounded-xl" id="atividades-container">
-            <!-- Exemplo de Atividade com Ícone
-        <div class="p-4 mb-4 bg-[#2a2a3c] rounded-xl shadow-md text-white flex items-center space-x-4">
-          <div class="bg-blue-500 w-10 h-10 rounded-full flex items-center justify-center">
-            <i class="fas fa-tasks text-white text-lg"></i>
-          </div>
-          <div>
-            <h3 class="text-lg font-semibold">Atividade Nome</h3>
-            <p class="text-gray-300">Detalhes da atividade...</p>
-          </div>
-        </div> -->
-          </div>
-        </section>
-      </main>
+          <!-- Botão para abrir o modal de edição -->
+          <button
+            id="editButton"
+            class="mt-4 bg-blue-500 p-2 rounded-lg text-white hover:bg-blue-700"
+            onclick="openEditModal()"
+          >
+            Editar Dados
+          </button>
+        </div>
+      </section>
+
+      <!-- Logs de Acesso e Alterações -->
+      <section class="p-6 space-y-10">
+        <h2 class="text-xl font-semibold">Logs de Acesso e Alterações</h2>
+        <div
+          class="bg-gray-800 p-6 rounded-lg shadow-md text-white"
+          id="logsContainer"
+        >
+          <p>Exibindo os últimos logs de acesso e alterações...</p>
+        </div>
+      </section>
     </div>
-    <!-- Scripts -->
-    <script src="assets/js/home.js"></script>
+
+    <!-- Modal de Edição de Empresa -->
+    <div
+      id="editModal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden"
+    >
+      <div class="bg-gray-800 p-6 rounded-lg w-96">
+        <h2 class="text-xl text-white font-semibold mb-4">
+          Editar Dados da Empresa
+        </h2>
+        <form id="editForm">
+          <div class="mb-4">
+            <label for="nome" class="text-white">Nome:</label>
+            <input
+              type="text"
+              id="nome"
+              class="w-full p-2 rounded-md bg-gray-700 text-white"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label for="cnpj" class="text-white">CNPJ:</label>
+            <input
+              type="text"
+              id="cnpj"
+              class="w-full p-2 rounded-md bg-gray-700 text-white"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label for="endereco" class="text-white">Endereço:</label>
+            <input
+              type="text"
+              id="endereco"
+              class="w-full p-2 rounded-md bg-gray-700 text-white"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label for="telefone" class="text-white">Telefone:</label>
+            <input
+              type="text"
+              id="telefone"
+              class="w-full p-2 rounded-md bg-gray-700 text-white"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label for="email" class="text-white">Email:</label>
+            <input
+              type="email"
+              id="email"
+              class="w-full p-2 rounded-md bg-gray-700 text-white"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-700"
+          >
+            Salvar Alterações
+          </button>
+        </form>
+        <button
+          class="mt-4 bg-red-500 text-white p-2 rounded-lg hover:bg-red-700"
+          onclick="closeEditModal()"
+        >
+          Fechar
+        </button>
+      </div>
+    </div>
+
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/relatorios.js"></script>
+    <script src="assets/js/admin.js"> </script>
   </body>
 </html>

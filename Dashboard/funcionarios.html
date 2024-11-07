@@ -72,7 +72,7 @@
               class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
             >
               <i class="uil uil-users-alt text-2xl"></i>
-              <span class="text-lg underline-active">Funcionários</span>
+              <span class="text-lg  underline-active">Funcionários</span>
             </span>
           </button>
         </a>
@@ -92,8 +92,8 @@
               </i>
               <span class="text-lg">Notificações</span>
             </span>
-          </button></a
-        >
+          </button>
+        </a>
 
         <a href="relatorios.html">
           <!-- Link adicionado para a página de relatórios -->
@@ -123,6 +123,17 @@
           </button>
         </a>
 
+        <div id="adminLink" style="display: none;">
+          <a href="admin.html">
+            <button class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all">
+              <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
+                <i class="uil uil-lock-alt text-2xl"></i>
+                <span class="text-lg">Admin</span>
+              </span>
+            </button>
+          </a>
+        </div>
+
         <button
           class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all mt-auto"
           onclick="handleLogout()"
@@ -136,6 +147,7 @@
         </button>
       </nav>
     </div>
+
     <!-- Conteúdo principal -->
     <div class="md:ml-80 p-10 hidden md:block">
       <header class="flex justify-between items-center mb-6">

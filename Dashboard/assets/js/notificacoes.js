@@ -92,6 +92,12 @@ async function markAsRead(notificationId, isRead) {
         await db.collection(`empresas/${userData.empresaId}/notificacoes`).doc(notificationId).update({
             isRead: !isRead // Inverte o estado
         });
+        firebase.firestore().collection(`empresas/${userData.empresaId}/logs`).add({
+            user: firebase.auth().currentUser.email,
+            action: `Marcou a notificação ${notificationId} como lida ou não lida`,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          
         // Após atualizar, recarrega as notificações
         await loadNotifications();
     } catch (error) {

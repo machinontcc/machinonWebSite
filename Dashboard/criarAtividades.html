@@ -39,109 +39,127 @@
 
     <!-- Sidebar fixa e estilizada (escondida em dispositivos móveis) -->
     <div
-    class="hidden md:flex md:flex-col md:fixed top-6 bottom-6 left-6 w-64 bg-gray-800 text-white rounded-xl shadow-2xl p-6 space-y-6"
+      class="hidden md:flex md:flex-col md:fixed top-6 bottom-6 left-6 w-64 bg-gray-800 text-white rounded-xl shadow-2xl p-6 space-y-6"
     >
-    <!-- Logo da Empresa -->
-    <div class="flex items-center space-x-3">
-      <img
-        src="../assets/img/logo_white.png"
-        alt="Logo da Empresa"
-        class="w-full h-16 rounded-full"
-      />
-    </div>
-    
-    <!-- Links de Navegação com Ícones Font Awesome -->
-    <nav class="flex flex-col space-y-4 poppins-regular">
-      <a href="dashboard.html">
-        <button
-          class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
-        >
-          <span
-            class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
-          >
-            <i class="uil uil-estate text-2xl"></i>
-            <span class="text-lg">Home</span>
-          </span>
-        </button>
-      </a>
-    
-      <a href="atividades.html">
-        <button
-          class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
-        >
-          <span
-            class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
-          >
-            <i class="uil uil-list-ul text-2xl"></i>
-            <span class="text-lg underline-active">Atividades</span>
-          </span>
-        </button>
-      </a>
-    
-      <a href="funcionarios.html">
-        <button
-          class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
-        >
-          <span
-            class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
-          >
-            <i class="uil uil-users-alt text-2xl"></i>
-            <span class="text-lg">Funcionários</span>
-          </span>
-        </button>
-      </a>
-    
-      <a href="notificacoes.html">
-      <button
-        class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all relative"
-      >
-        <span
-          class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
-        >
-          <i class="uil uil-bell text-2xl relative">
-            <em
-              class="absolute top-[2px] right-[0px] w-2.5 h-2.5 bg-red-500 border border-white rounded-full"
-              style="display: none;"
-            ></em>
-          </i>
-          <span class="text-lg">Notificações</span>
-        </span>
-      </button></a>
+      <!-- Logo da Empresa -->
+      <div class="flex items-center space-x-3">
+        <img
+          src="../assets/img/logo_white.png"
+          alt="Logo da Empresa"
+          class="w-full h-16 rounded-full"
+        />
+      </div>
 
-      <a href="relatorios.html"> <!-- Link adicionado para a página de relatórios -->
-        <button class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all">
-            <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
-                <i class="uil uil-file-info-alt text-2xl"></i> <!-- Ícone para Relatórios -->
-                <span class="text-lg">Relatórios</span>
+      <!-- Links de Navegação com Ícones Font Awesome -->
+      <nav class="flex flex-col space-y-4 poppins-regular">
+        <a href="dashboard.html">
+          <button
+            class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+          >
+            <span
+              class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+            >
+              <i class="uil uil-estate text-2xl"></i>
+              <span class="text-lg">Home</span>
             </span>
-        </button>
-      </a>
-    
-      <a href="perfil.html">
+          </button>
+        </a>
+
+        <a href="atividades.html">
+          <button
+            class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+          >
+            <span
+              class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+            >
+              <i class="uil uil-list-ul text-2xl"></i>
+              <span class="text-lg underline-active">Atividades</span>
+            </span>
+          </button>
+        </a>
+
+        <a href="funcionarios.html">
+          <button
+            class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+          >
+            <span
+              class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+            >
+              <i class="uil uil-users-alt text-2xl"></i>
+              <span class="text-lg">Funcionários</span>
+            </span>
+          </button>
+        </a>
+
+        <a href="notificacoes.html">
+          <button
+            class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all relative"
+          >
+            <span
+              class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+            >
+              <i class="uil uil-bell text-2xl relative">
+                <em
+                  class="absolute top-[2px] right-[0px] w-2.5 h-2.5 bg-red-500 border border-white rounded-full"
+                  style="display: none"
+                ></em>
+              </i>
+              <span class="text-lg">Notificações</span>
+            </span>
+          </button>
+        </a>
+
+        <a href="relatorios.html">
+          <!-- Link adicionado para a página de relatórios -->
+          <button
+            class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+          >
+            <span
+              class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+            >
+              <i class="uil uil-file-info-alt text-2xl"></i>
+              <!-- Ícone para Relatórios -->
+              <span class="text-lg">Relatórios</span>
+            </span>
+          </button>
+        </a>
+
+        <a href="perfil.html">
+          <button
+            class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+          >
+            <span
+              class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
+            >
+              <i class="uil uil-user-circle text-2xl"></i>
+              <span class="text-lg">Perfil</span>
+            </span>
+          </button>
+        </a>
+
+        <div id="adminLink" style="display: none;">
+          <a href="admin.html">
+            <button class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all">
+              <span class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]">
+                <i class="uil uil-lock-alt text-2xl"></i>
+                <span class="text-lg">Admin</span>
+              </span>
+            </button>
+          </a>
+        </div>
+
         <button
-          class="h-15 w-full bg-transparent border-0 text-white cursor-pointer transition-all"
+          class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all mt-auto"
+          onclick="handleLogout()"
         >
           <span
             class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
           >
-            <i class="uil uil-user-circle text-2xl"></i>
-            <span class="text-lg">Perfil</span>
+            <i class="uil uil-signout text-2xl"></i>
+            <span class="text-lg">Sair</span>
           </span>
         </button>
-      </a>
-    
-      <button
-        class="h-15 bg-transparent border-0 text-white cursor-pointer transition-all mt-auto"
-        onclick="handleLogout()"
-      >
-        <span
-          class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-gray-100 hover:text-[#050512]"
-        >
-          <i class="uil uil-signout text-2xl"></i>
-          <span class="text-lg">Sair</span>
-        </span>
-      </button>
-    </nav>
+      </nav>
     </div>
 
     <!-- Conteúdo principal -->

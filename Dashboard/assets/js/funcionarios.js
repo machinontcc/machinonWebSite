@@ -121,7 +121,12 @@ const userData = JSON.parse(localStorage.getItem("userData"));
             .update({ status });
 
           await createNotification("Funcionário Editado", `O administrador ${userData.nome} editou com sucesso o funcionário ${nome}.`, userData.empresaId);
-
+          await firebase.firestore().collection(`empresas/${userData.empresaId}/logs`).add({
+            user: firebase.auth().currentUser.email,
+            action: `Alterou o funcionário ${nome}`,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          
           closeEditModal();
           fetchFuncionarios();
         });

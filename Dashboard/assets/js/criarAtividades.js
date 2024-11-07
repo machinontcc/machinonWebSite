@@ -25,6 +25,11 @@ document.getElementById('createActivityButton').onclick = async function() {
         console.log("Documento escrito com ID: ", docRef.id);
         showAlertModal(`Atividade "${titulo}" criada com sucesso!`, true);
         await createNotification("Nova Atividade Adicionada", `A atividade ${titulo} foi adicionada com sucesso.`, userData.empresaId);
+        await firebase.firestore().collection(`empresas/${userData.empresaId}/logs`).add({
+            user: firebase.auth().currentUser.email,
+            action: `Criou uma nova atividade: ${docRef.id}`,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });          
     })
     .catch(function(error) {
         console.error("Erro ao adicionar documento: ", error);
