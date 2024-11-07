@@ -1,268 +1,188 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="../assets/css/styles.css" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <title>Login - MachinON</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <title>Login - MachinON</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="../config/configFirebase.js"></script>
-    <script src="../assets/js/login.js"></script>
-  </head>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
 
-  <body class="bg-gray-900 text-white">
-    <nav
-      class="bg-zinc-900 z-50 shadow-md w-full lg:w-3/5 lg:mx-auto lg:rounded-2xl"
-    >
-      <div class="container mx-auto flex items-center p-2">
-        <!-- Logo -->
-        <div class="logo text-xl font-bold">
-          <img
-            src="../assets/img/logo_white.png"
-            alt="MachinON"
-            class="max-w-full h-auto w-24 md:w-32 lg:w-40"
-          />
-        </div>
+  <script src="../config/configFirebase.js"></script>
+  <script src="../assets/js/login.js"></script>
+</head>
 
-        <!-- Linha vertical ao lado da logo -->
-        <div class="border-l border-white h-10 mx-4"></div>
-
-        <!-- Links de navegação (escondidos em telas menores que 768px) -->
-        <div class="hidden md:flex space-x-4 items-center">
-          <a
-            href="../index.html"
-            class="poppins-medium underline-animation text-white text-sm"
-            >Home</a
-          >
-          <a
-            href="planos.html"
-            class="poppins-medium underline-animation text-white text-sm"
-            >Planos</a
-          >
-          <a
-            href="sobreNos.html"
-            class="poppins-medium underline-animation text-white text-sm"
-            >Sobre nós</a
-          >
-        </div>
-
-        <!-- Ícone de menu hambúrguer (visível em telas menores que 768px) -->
-        <button
-          id="menu-button"
-          class="ml-auto block md:hidden text-white focus:outline-none"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-8 w-8"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16m-7 6h7"
-            />
-          </svg>
-        </button>
+<body class="bg-gray-900 text-white">
+  <nav class="bg-zinc-900 z-50 shadow-md w-full lg:w-3/5 lg:mx-auto lg:rounded-2xl">
+    <div class="container mx-auto flex items-center p-2">
+      <!-- Logo -->
+      <div class="logo text-xl font-bold">
+        <img src="../assets/img/logo_white.png" alt="MachinON" class="max-w-full h-auto w-24 md:w-32 lg:w-40" />
       </div>
-    </nav>
 
-    <!-- Sidebar para telas menores -->
-    <div
-      id="sidebar"
-      class="fixed left-0 top-0 w-3/4 h-full bg-zinc-900 shadow-lg z-50 transform -translate-x-full transition-transform duration-300 ease-in-out"
-    >
-      <div class="p-4">
-        <div class="logo text-xl font-bold mb-6">
-          <img
-            src="../assets/img/logo_white.png"
-            alt="MachinON"
-            class="max-w-full h-auto w-24"
-          />
+      <!-- Linha vertical ao lado da logo -->
+      <div class="border-l border-white h-10 mx-4"></div>
+
+      <!-- Links de navegação (escondidos em telas menores que 768px) -->
+      <div class="hidden md:flex space-x-4 items-center">
+        <a href="../index.html" class="poppins-medium underline-animation text-white text-sm">Home</a>
+        <a href="planos.html" class="poppins-medium underline-animation text-white text-sm">Planos</a>
+        <a href="sobreNos.html" class="poppins-medium underline-animation text-white text-sm">Sobre nós</a>
+      </div>
+
+      <!-- Ícone de menu hambúrguer (visível em telas menores que 768px) -->
+      <button id="menu-button" class="ml-auto block md:hidden text-white focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Sidebar para telas menores -->
+  <div id="sidebar"
+    class="fixed left-0 top-0 w-3/4 h-full bg-zinc-900 shadow-lg z-50 transform -translate-x-full transition-transform duration-300 ease-in-out">
+    <div class="p-4">
+      <div class="logo text-xl font-bold mb-6">
+        <img src="../assets/img/logo_white.png" alt="MachinON" class="max-w-full h-auto w-24" />
+      </div>
+      <a href="../index.html" class="block poppins-medium text-white text-lg mb-4">Home</a>
+      <a href="planos.html" class="block poppins-medium text-white text-lg mb-4">Planos</a>
+      <a href="sobreNos.html" class="block poppins-medium text-white text-lg mb-4">Sobre nós</a>
+    </div>
+  </div>
+
+  <!-- Seção de Login -->
+  <section class="py-16 bg-gray-900 fade-in">
+    <div class="container mx-auto lg:w-3/5">
+      <h2 class="text-4xl md:text-5xl font-bold text-center mb-8">Login</h2>
+
+      <!-- Mensagem de login -->
+      <div class="mb-8 text-center">
+        <p class="text-lg text-gray-300 mb-4">
+          Faça login na sua conta para acessar a plataforma MachinON.
+        </p>
+      </div>
+
+      <!-- Formulário de Login -->
+      <form id="login-form" onsubmit="handleLogin(event)" class="bg-gray-800 p-8 rounded-lg shadow-lg">
+        <div class="mb-4">
+          <label for="email" class="block text-sm font-bold mb-2">E-mail</label>
+          <input type="email" id="email" required name="email"
+            class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500" />
         </div>
-        <a
-          href="../index.html"
-          class="block poppins-medium text-white text-lg mb-4"
-          >Home</a
-        >
-        <a
-          href="planos.html"
-          class="block poppins-medium text-white text-lg mb-4"
-          >Planos</a
-        >
-        <a
-          href="sobreNos.html"
-          class="block poppins-medium text-white text-lg mb-4"
-          >Sobre nós</a
-        >
+        <div class="mb-4">
+          <label for="senha" class="block text-sm font-bold mb-2">Senha</label>
+          <input type="password" id="senha" required name="senha"
+            class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500" />
+        </div>
+        <button type="submit"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+          Entrar
+        </button>
+      </form>
+
+      <!-- Links adicionais -->
+      <div class="mt-6 text-center text-gray-400">
+        <a href="#" class="underline">Esqueceu a senha?</a>
+      </div>
+      <div class="mt-2 text-center text-gray-400">
+        <p>
+          Ainda não tem uma conta?
+          <a href="cadastro.html" class="text-blue-400 underline">Cadastre-se aqui</a>
+        </p>
       </div>
     </div>
+  </section>
 
-    <!-- Seção de Login -->
-    <section class="py-16 bg-gray-900 fade-in">
-      <div class="container mx-auto lg:w-3/5">
-        <h2 class="text-4xl md:text-5xl font-bold text-center mb-8">Login</h2>
+  <!-- Rodapé -->
+  <footer class="text-white py-6 mx-auto container flex flex-col border-t-2 border-zinc-700">
+    <div class="flex justify-center md:justify-start">
+      <img src="assets/img/logo_white.png" alt="Logo MachinOn" class="max-w-full h-auto w-24 md:w-32 lg:w-48" />
+    </div>
+    <div class="flex flex-wrap justify-center flex-col gap-4 md:flex-row md:justify-start md:space-x-4 mt-2 text-sm md:text-base">
+      <p class="w-full text-center md:w-auto">© MachinON 2024</p>
+      <a href="#" class="underline-animation">Política de Privacidade</a>
+      <a href="#" class="underline-animation">Política de Cookies</a>
+      <a href="#" class="underline-animation">Termos de uso</a>
+    </div>
+  </footer>
 
-        <!-- Mensagem de login -->
-        <div class="mb-8 text-center">
-          <p class="text-lg text-gray-300 mb-4">
-            Faça login na sua conta para acessar a plataforma MachinON.
-          </p>
-        </div>
+  <!-- Scripts -->
+  <script src="../assets/js/main.js" defer></script>
 
-        <!-- Formulário de Login -->
-        <form
-          id="login-form"
-          onsubmit="handleLogin(event)"
-          class="bg-gray-800 p-8 rounded-lg shadow-lg"
-        >
-          <div class="mb-4">
-            <label for="email" class="block text-sm font-bold mb-2"
-              >E-mail</label
-            >
-            <input
-              type="email"
-              id="email"
-              required
-              name="email"
-              class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500"
-            />
-          </div>
-          <div class="mb-4">
-            <label for="senha" class="block text-sm font-bold mb-2"
-              >Senha</label
-            >
-            <input
-              type="password"
-              id="senha"
-              required
-              name="senha"
-              class="w-full bg-gray-700 text-white border border-gray-600 rounded-lg py-2 px-4 focus:outline-none focus:border-blue-500"
-            />
-          </div>
-          <button
-            type="submit"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out"
-          >
-            Entrar
-          </button>
-        </form>
+  <script>
 
-        <!-- Links adicionais -->
-        <div class="mt-6 text-center text-gray-400">
-          <a href="#" class="underline">Esqueceu a senha?</a>
-        </div>
-        <div class="mt-2 text-center text-gray-400">
-          <p>
-            Ainda não tem uma conta?
-            <a href="cadastro.html" class="text-blue-400 underline"
-              >Cadastre-se aqui</a
-            >
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Rodapé -->
-    <footer
-      class="text-white py-6 mx-auto container flex flex-col border-t-2 border-zinc-700"
-    >
-      <div class="flex justify-center md:justify-start">
-        <img
-          src="../assets/img/logo_white.png"
-          alt="Logo MachinOn"
-          class="max-w-full h-auto w-24 md:w-32 lg:w-48"
-        />
-      </div>
-      <div
-        class="flex flex-wrap justify-center md:justify-start md:space-x-4 mt-2 text-sm md:text-base"
-      >
-        <p class="w-full text-center md:w-auto">© MachinON 2024</p>
-        <a href="#" class="underline-animation">Política de Privacidade</a>
-        <a href="#" class="underline-animation">Política de Cookies</a>
-        <a href="#" class="underline-animation">Termos de uso</a>
-      </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="../assets/js/main.js" defer></script>
-
-    <script>
-
-          document.addEventListener('DOMContentLoaded', async () => {
-            firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-              // Se já estiver logado, redireciona para o dashboard
-              window.location.href = '../Dashboard/dashboard.html';
-            }
-            });
-           });
+    document.addEventListener('DOMContentLoaded', async () => {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          // Se já estiver logado, redireciona para o dashboard
+          window.location.href = '../Dashboard/dashboard.html';
+          localStorage.setItem('uidUser', user.uid);
+        }
+      });
+    });
 
 
-          // Função para lidar com o envio do formulário de login
-        async function handleLogin(event) {
-        event.preventDefault(); // Impede o envio padrão do formulário
+    // Função para lidar com o envio do formulário de login
+    async function handleLogin(event) {
+      event.preventDefault(); // Impede o envio padrão do formulário
 
-        const email = document.getElementById('email').value;
-        const senha = document.getElementById('senha').value;
+      const email = document.getElementById('email').value;
+      const senha = document.getElementById('senha').value;
 
-        // Lógica para autenticar o usuário usando Firebase
-        firebase.auth().signInWithEmailAndPassword(email, senha)
-          .then(async (userCredential) => {
-              localStorage.setItem('uidUser', userCredential.user.uid);
-              window.location.href = '../Dashboard/dashboard.html';
-          })
-          .catch((error) => {
-            // Exibe mensagem de erro
-            let errorText;
-            console.error(error.code);
-            console.error(error.message);
+      // Lógica para autenticar o usuário usando Firebase
+      firebase.auth().signInWithEmailAndPassword(email, senha)
+        .then(async (userCredential) => {
+          localStorage.setItem('uidUser', userCredential.user.uid);
+          window.location.href = '../Dashboard/dashboard.html';
+        })
+        .catch((error) => {
+          // Exibe mensagem de erro
+          let errorText;
+          console.error(error.code);
+          console.error(error.message);
 
-            switch (error.code) {
-                case 'auth/invalid-email':
-                    errorText = 'O e-mail fornecido é inválido.';
-                    break;
-                case 'auth/user-not-found':
-                    errorText = 'Nenhum usuário encontrado com este e-mail.';
-                    break;
-                case 'auth/wrong-password':
-                    errorText = 'A senha está incorreta. Verifique novamente.';
-                    break;
-                case 'auth/too-many-requests':
-                    errorText = 'Muitas tentativas de login. Tente novamente mais tarde.';
-                    break;
-                default:
-                    errorText = 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
-            }
+          switch (error.code) {
+            case 'auth/invalid-email':
+              errorText = 'O e-mail fornecido é inválido.';
+              break;
+            case 'auth/user-not-found':
+              errorText = 'Nenhum usuário encontrado com este e-mail.';
+              break;
+            case 'auth/wrong-password':
+              errorText = 'A senha está incorreta. Verifique novamente.';
+              break;
+            case 'auth/too-many-requests':
+              errorText = 'Muitas tentativas de login. Tente novamente mais tarde.';
+              break;
+            default:
+              errorText = 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
+          }
 
-            Swal.fire({
-              icon: 'error',
-              title: 'Erro ao fazer login',
-              text: errorText
-            });
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro ao fazer login',
+            text: errorText
           });
-      }
+        });
+    }
 
 
-          // Ação para abrir/fechar o menu
-          document.getElementById('menu-button').addEventListener('click', function () {
-            const sidebar = document.getElementById('sidebar');
-            const isOpen = sidebar.classList.contains('translate-x-0');
-            sidebar.classList.toggle('-translate-x-full', isOpen);
-            sidebar.classList.toggle('translate-x-0', !isOpen);
-          });
-    </script>
-  </body>
+    // Ação para abrir/fechar o menu
+    document.getElementById('menu-button').addEventListener('click', function () {
+      const sidebar = document.getElementById('sidebar');
+      const isOpen = sidebar.classList.contains('translate-x-0');
+      sidebar.classList.toggle('-translate-x-full', isOpen);
+      sidebar.classList.toggle('translate-x-0', !isOpen);
+    });
+  </script>
+</body>
+
 </html>

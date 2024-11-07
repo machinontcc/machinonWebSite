@@ -13,8 +13,7 @@ async function handleLogout() {
     if (result.isConfirmed) {
         try {
             await firebase.auth().signOut(); // Realiza o logout
-            localStorage.removeItem('uidUser'); // Remove o uid do localStorage
-            localStorage.removeItem('userData'); // Remove os dados do usuário
+            localStorage.clear();
             console.log("Usuário deslogado com sucesso!");
             window.location.href = '../index.html'; // Redireciona para a página inicial
         } catch (error) {
@@ -117,6 +116,5 @@ function checkAdminAccess() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     await isLogged();
-    await fetchUserInfo();
     checkAdminAccess();
 });

@@ -88,23 +88,43 @@ function listenToAtividades() {
 
 
 document.addEventListener('DOMContentLoaded', async () => {
-    await fetchUserInfo(); // Chama a função para buscar as informações do usuário
-    const userDataString = localStorage.getItem('userData'); // Obtém os dados do usuário do localStorage
-    const empresaDataString = localStorage.getItem('empresaData');
+    try {
+        await fetchUserInfo(); // Chama a função para buscar as informações do usuário
+        await fetchEmpresaInfo();
 
-    if (userDataString) { // Verifica se userDataString não é null
-        const userData = JSON.parse(userDataString); // Faz o parse para objeto
-        const empresaData = JSON.parse(empresaDataString);
+        const userDataString = localStorage.getItem('userData'); // Obtém os dados do usuário do localStorage
+        const empresaDataString = localStorage.getItem('empresaData'); // Obtém os dados da empresa
 
-        // Atualiza o texto do elemento com o id 'username'
-        document.getElementById('username').innerText = `Olá, ${userData.nome}`;
-        document.getElementById('titleSensores').innerText = `Sensores da Empresa: ${empresaData.nome}`
-    } else {
-        // Caso não haja dados, você pode definir um valor padrão ou uma mensagem
-        document.getElementById('username').innerText = 'Olá, Usuário';
+        if (userDataString && empresaDataString) { // Verifica se userDataString e empresaDataString não são null
+            const userData = JSON.parse(userDataString); // Faz o parse para objeto
+            const empresaData = JSON.parse(empresaDataString); // Faz o parse para objeto
+
+            // Atualiza o texto do elemento com o id 'username' (verifique se o elemento existe no DOM)
+            const usernameElement = document.getElementById('username');
+            if (usernameElement) {
+                usernameElement.innerText = `Olá, ${userData.nome}`;
+            } else {
+                console.warn("Elemento 'username' não encontrado.");
+            }
+
+            // Atualiza o título do elemento com o id 'titleSensores' (verifique se o elemento existe no DOM)
+            const titleSensoresElement = document.getElementById('titleSensores');
+            if (titleSensoresElement) {
+                titleSensoresElement.innerText = `Sensores da Empresa: ${empresaData.nome}`;
+            } else {
+                console.warn("Elemento 'titleSensores' não encontrado.");
+            }
+
+            // Chama as funções de escuta
+            listenToSensors();
+            listenToAtividades();
+
+        } else {
+            console.warn("userDataString ou empresaDataString não encontrados no localStorage.");
+            document.getElementById('username').innerText = 'Olá, Usuário'; // Valor padrão se os dados não existirem
+        }
+    } catch (error) {
+        console.error("Erro ao carregar os dados:", error);
     }
-
-    listenToSensors();
-    listenToAtividades();
 });
 

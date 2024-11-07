@@ -140,3 +140,13 @@ async function gerarRelatorioMensal(empresaId, startDate, endDate) {
     console.log(report); // Exibir o objeto de relatório no console para verificação
     return report; // Retorna o objeto do relatório
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+      const isAdmin = userData.isAdmin;
+
+      if (isAdmin) {    
+        document.getElementById("selectRelatorio").classList.remove("hidden");
+      }
+
+})

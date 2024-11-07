@@ -10,3 +10,19 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+async function createNotification(titulo, mensagem, empresaId) {
+    const notification = {
+        titulo: titulo,
+        mensagem: mensagem,
+        createdAt: new Date(),
+        isRead: false
+    };
+
+    try {
+        await db.collection(`empresas/${empresaId}/notificacoes`).add(notification);
+        console.log("Notificação criada com sucesso");
+    } catch (error) {
+        console.error("Erro ao criar notificação: ", error);
+    }
+}

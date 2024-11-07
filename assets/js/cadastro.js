@@ -11,36 +11,49 @@ async function handleSubmit(event) {
             const q = empresasRef.where('codigoConvite', '==', data.codigo); // Consulta para verificar o código de convite
             const querySnapshot = await q.get(); // Obtém os documentos correspondentes
 
+            // Verifique se há empresas encontradas
             if (!querySnapshot.empty) {
-                // O código de convite existe
                 const empresa = querySnapshot.docs[0].data(); // Obtém os dados da empresa
                 const empresaNome = empresa.nome || "Empresa não identificada"; // Obtém o nome da empresa ou define um padrão
-                
+                const empresaId = querySnapshot.docs[0].id; // Pega o ID da empresa (não usa empresa.id)
+
+                // Verifica se o ID da empresa foi encontrado
+                if (!empresaId) {
+                    console.error('Erro: ID da empresa não encontrado.');
+                    alert('Erro: ID da empresa não encontrado.');
+                    return;
+                }
+
+                console.log('Empresa encontrada:', empresaNome, 'ID da Empresa:', empresaId);
+
                 // Pergunta se o usuário realmente quer se vincular à empresa
                 const confirmarVinculo = confirm(`Empresa encontrada: ${empresaNome}\n\nDeseja se vincular a esta empresa?`);
                 
                 if (confirmarVinculo) {
                     try {
+                        // Cria o usuário no Firebase Authentication
                         const userCredential = await firebase.auth().createUserWithEmailAndPassword(data.email, data.senha);
                         const user = userCredential.user;
 
+                        // Adiciona o documento do usuário no Firestore, com empresaId corretamente atribuído
                         await db.collection('users').doc(user.uid).set({
                             nome: data.nome,
                             email: data.email,
-                            empresaId: empresa.id,
+                            empresaId: empresaId, // Passa o ID da empresa corretamente
                             telefone: data.telefone,
                             cargo: data.cargo,
                             isAdmin: false,
                             dataCriacao: firebase.firestore.Timestamp.now()
                         });
 
-                        await db.collection(`empresas/${empresa.id}/funcionarios`).doc(user.uid).set({
+                        // Adiciona o funcionário à empresa
+                        await db.collection(`empresas/${empresaId}/funcionarios`).doc(user.uid).set({
                             dataContratacao: firebase.firestore.Timestamp.now(),
                             status: 'Ativo',
                             userId: user.uid
-                        })
+                        });
 
-                        await createNotification("Novo Funcionário Cadastrado", `O funcionário ${data.nome} foi adicionado com sucesso.`, empresa.id);
+                        await createNotification("Novo Funcionário Cadastrado", `O funcionário ${data.nome} foi adicionado com sucesso.`, empresaId);
 
                         // Alerta personalizado usando SweetAlert
                         Swal.fire({
@@ -49,7 +62,8 @@ async function handleSubmit(event) {
                             icon: 'success',
                             confirmButtonText: 'OK'
                         }).then(() => {
-                            window.location.href = '../index.html'; // Redireciona após confirmar
+                            localStorage.setItem("userUid", user.uid);
+                            window.location.href = '../login.html'; // Redireciona após confirmar
                         });
 
                     } catch (error) {
@@ -67,7 +81,7 @@ async function handleSubmit(event) {
                     text: `Código de convite inválido. Por favor, verifique e tente novamente.`,
                     icon: 'error',
                     confirmButtonText: 'OK'
-                })
+                });
             }
         } catch (error) {
             console.error('Erro ao verificar o código de convite:', error);
@@ -203,6 +217,13 @@ async function simulatePayment() {
         try {
             const empresaRef = db.collection("empresas").doc(empresaId);
             await empresaRef.update({ pagamentoId: pagamentoId });
+
+            await db.collection(`empresas/${empresaId}/funcionarios`).doc(user.uid).set({
+                dataContratacao: firebase.firestore.Timestamp.now(),
+                status: 'Ativo',
+                userId: user.uid
+            });
+            
         } catch (error) {
             console.error("Erro ao atualizar empresa com ID do pagamento:", error);
             alert("Erro ao atualizar empresa com ID do pagamento.");
