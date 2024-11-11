@@ -132,47 +132,48 @@
 
     // Função para lidar com o envio do formulário de login
     async function handleLogin(event) {
-      event.preventDefault(); // Impede o envio padrão do formulário
+    event.preventDefault(); // Impede o envio padrão do formulário
 
-      const email = document.getElementById('email').value;
-      const senha = document.getElementById('senha').value;
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
 
-      // Lógica para autenticar o usuário usando Firebase
-      firebase.auth().signInWithEmailAndPassword(email, senha)
+    // Lógica para autenticar o usuário usando Firebase
+    firebase.auth().signInWithEmailAndPassword(email, senha)
         .then(async (userCredential) => {
-          localStorage.setItem('uidUser', userCredential.user.uid);
-          window.location.href = '../Dashboard/dashboard.html';
+            localStorage.setItem('uidUser', userCredential.user.uid);
+            window.location.href = '../Dashboard/dashboard.html';
         })
         .catch((error) => {
-          // Exibe mensagem de erro
-          let errorText;
-          console.error(error.code);
-          console.error(error.message);
+            // Exibe mensagem de erro
+            console.error("Código de erro:", error.code);
+            console.error("Mensagem de erro:", error.message);
 
-          switch (error.code) {
-            case 'auth/invalid-email':
-              errorText = 'O e-mail fornecido é inválido.';
-              break;
-            case 'auth/user-not-found':
-              errorText = 'Nenhum usuário encontrado com este e-mail.';
-              break;
-            case 'auth/wrong-password':
-              errorText = 'A senha está incorreta. Verifique novamente.';
-              break;
-            case 'auth/too-many-requests':
-              errorText = 'Muitas tentativas de login. Tente novamente mais tarde.';
-              break;
-            default:
-              errorText = 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
-          }
+            let errorText;
 
-          Swal.fire({
-            icon: 'error',
-            title: 'Erro ao fazer login',
-            text: errorText
-          });
+            // Verifica os códigos de erro retornados
+            if (error.code === 'auth/invalid-email') {
+                errorText = 'O e-mail fornecido é inválido.';
+            } else if (error.code === 'auth/user-not-found') {
+                errorText = 'Nenhum usuário encontrado com este e-mail.';
+            } else if (error.code === 'auth/wrong-password') {
+                errorText = 'A senha está incorreta. Verifique novamente.';
+            } else if (error.code === 'auth/too-many-requests') {
+                errorText = 'Muitas tentativas de login. Tente novamente mais tarde.';
+            } else if (error.code === 'auth/invalid-credential') {
+              errorText = "O email ou a senha está incorreta. Verifique novamente";
+            } else {
+                errorText = 'Ocorreu um erro inesperado. Tente novamente mais tarde.';
+            }
+
+            // Exibe a mensagem de erro usando SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro ao fazer login',
+                text: errorText
+            });
         });
-    }
+}
+
 
 
     // Ação para abrir/fechar o menu
