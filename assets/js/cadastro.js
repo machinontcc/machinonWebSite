@@ -218,15 +218,14 @@ async function simulatePayment() {
             const empresaRef = db.collection("empresas").doc(empresaId);
             await empresaRef.update({ pagamentoId: pagamentoId });
 
-            await db.collection(`empresas/${empresaId}/funcionarios`).doc(user.uid).set({
+            await db.collection(`empresas/${empresaId}/funcionarios`).doc(uid).set({
                 dataContratacao: firebase.firestore.Timestamp.now(),
                 status: 'Ativo',
-                userId: user.uid
+                userId: uid
             });
             
         } catch (error) {
-            console.error("Erro ao atualizar empresa com ID do pagamento:", error);
-            alert("Erro ao atualizar empresa com ID do pagamento.");
+            console.error("Erro ao cadastrar usuario:", error);
             return;
         }
 

@@ -27,6 +27,17 @@ async function handleLogout() {
     }
 }
 
+async function logoutMobile() {
+    try {
+        await firebase.auth().signOut();
+        localStorage.clear();
+        console.log("Usuário deslogado com sucesso!");
+        window.location.href = '../index.html';
+    } catch (error) {
+        console.error("Erro ao fazer logout automatico", error);
+    }
+}
+
 async function isLogged() {
     firebase.auth().onAuthStateChanged(async (user) => {
         if (!user) {

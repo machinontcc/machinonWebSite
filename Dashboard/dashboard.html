@@ -29,12 +29,16 @@
   <body class="font-sans bg-[#050512] text-white">
     <!-- Aviso para dispositivos móveis -->
     <div
-      class="fixed inset-0 flex items-center justify-center bg-red-100 text-red-800 text-lg p-4 md:hidden"
+      class="fixed inset-0 flex flex-col items-center justify-center bg-red-100 text-red-800 text-lg p-4 md:hidden"
     >
       <p>
         Para acessar este conteúdo em dispositivos móveis, faça o download do
         nosso aplicativo!
       </p>
+      <a onclick="logoutMobile()"
+      class="block text-center px-4 py-2 mt-4 font-bold text-white bg-blue-600 rounded-xl transition-all duration-300 ease-in-out transform hover:scale-110 hover:bg-blue-700 hover:shadow-lg">
+      Para voltar para a home clique aqui
+      </a>
     </div>
 
     <!-- Sidebar fixa e estilizada (escondida em dispositivos móveis) -->
